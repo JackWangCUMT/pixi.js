@@ -1,9 +1,9 @@
-var extractUniformsFromSrc = require('./extractUniformsFromSrc'),
+let extractUniformsFromSrc = require('./extractUniformsFromSrc'),
     utils = require('../../../utils'),
     CONST = require('../../../const'),
     SOURCE_KEY_MAP = {};
 
-// var math = require('../../../math');
+// let math = require('../../../math');
 /**
  * @class
  * @memberof PIXI
@@ -37,7 +37,7 @@ function Filter(vertexSrc, fragmentSrc, uniforms)
 
     this.uniforms = {};
 
-    for (var i in this.uniformData)
+    for (let i in this.uniformData)
     {
         this.uniforms[i] = this.uniformData[i].value;
     }
@@ -76,7 +76,7 @@ function Filter(vertexSrc, fragmentSrc, uniforms)
 //Filter.prototype.constructor = Filter;
 module.exports = Filter;
 
-// var tempMatrix = new math.Matrix();
+// let tempMatrix = new math.Matrix();
 
 Filter.prototype.apply = function(filterManager, input, output, clear)
 {

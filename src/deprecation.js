@@ -1,16 +1,16 @@
 /*global console */
-var core = require('./core'),
-    mesh = require('./mesh'),
-    particles = require('./particles'),
-    extras = require('./extras'),
-    filters = require('./filters');
+import core from './core';
+import mesh from './mesh';
+import particles from './particles';
+import extras from './extras';
+import filters from './filters';
 
 // @if DEBUG
 // provide method to give a stack track for warnings
 // useful for tracking-down where deprecated methods/properties/classes
 // are being used within the code
 function warn(msg) {
-    var stack = new Error().stack;
+    let stack = new Error().stack;
 
     // Handle IE < 10 and Safari < 6
     if (typeof stack === 'undefined') {
@@ -462,7 +462,7 @@ Object.defineProperties(core.TextStyle.prototype, {
             // @if DEBUG
             warn('text style property \'font\' is now deprecated, please use the \'fontFamily\',\'fontSize\',fontStyle\',\'fontVariant\' and \'fontWeight\' properties from now on');
             // @endif
-            var fontSizeString = (typeof this._fontSize === 'number') ? this._fontSize + 'px' : this._fontSize;
+            const fontSizeString = (typeof this._fontSize === 'number') ? this._fontSize + 'px' : this._fontSize;
             return this._fontStyle + ' ' + this._fontVariant + ' ' + this._fontWeight + ' ' + fontSizeString + ' ' + this._fontFamily;
         },
         set: function (font)
@@ -496,9 +496,9 @@ Object.defineProperties(core.TextStyle.prototype, {
             }
 
             // fontWeight and fontFamily are tricker to find, but it's easier to find the fontSize due to it's units
-            var splits = font.split(' ');
-            var i;
-            var fontSizeIndex = -1;
+            let splits = font.split(' ');
+            let i;
+            let fontSizeIndex = -1;
 
             this._fontSize = 26;
             for ( i = 0; i < splits.length; ++i )

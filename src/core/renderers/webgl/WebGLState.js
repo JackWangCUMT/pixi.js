@@ -1,4 +1,4 @@
-var mapWebGLBlendModesToPixi = require('./utils/mapWebGLBlendModesToPixi');
+let mapWebGLBlendModesToPixi = require('./utils/mapWebGLBlendModesToPixi');
 
 /**
  * A WebGL state machines
@@ -70,7 +70,7 @@ function WebGLState(gl)
 WebGLState.prototype.push = function()
 {
     // next state..
-    var state = this.stack[++this.stackIndex];
+    let state = this.stack[++this.stackIndex];
 
     if(!state)
     {
@@ -79,13 +79,13 @@ WebGLState.prototype.push = function()
 
     // copy state..
     // set active state so we can force overrides of gl state
-    for (var i = 0; i < this.activeState.length; i++)
+    for (let i = 0; i < this.activeState.length; i++)
     {
         this.activeState[i] = state[i];
     }
 };
 
-var BLEND = 0,
+let BLEND = 0,
     DEPTH_TEST = 1,
     FRONT_FACE = 2,
     CULL_FACE = 3,
@@ -96,7 +96,7 @@ var BLEND = 0,
  */
 WebGLState.prototype.pop = function()
 {
-    var state = this.stack[--this.stackIndex];
+    let state = this.stack[--this.stackIndex];
     this.setState(state);
 };
 
@@ -125,7 +125,7 @@ WebGLState.prototype.setBlend = function(value)
 
     this.activeState[BLEND] = value|0;
 
-    var gl = this.gl;
+    let gl = this.gl;
 
     if(value)
     {
@@ -164,7 +164,7 @@ WebGLState.prototype.setDepthTest = function(value)
 
     this.activeState[DEPTH_TEST] = value|0;
 
-    var gl = this.gl;
+    let gl = this.gl;
 
     if(value)
     {
@@ -188,7 +188,7 @@ WebGLState.prototype.setCullFace = function(value)
 
     this.activeState[CULL_FACE] = value|0;
 
-    var gl = this.gl;
+    let gl = this.gl;
 
     if(value)
     {
@@ -212,7 +212,7 @@ WebGLState.prototype.setFrontFace = function(value)
 
     this.activeState[FRONT_FACE] = value|0;
 
-    var gl = this.gl;
+    let gl = this.gl;
 
     if(value)
     {
@@ -229,7 +229,7 @@ WebGLState.prototype.setFrontFace = function(value)
  */
 WebGLState.prototype.resetAttributes = function()
 {
-    var i;
+    let i;
 
     for ( i = 0; i < this.attribState.tempAttribState.length; i++) {
         this.attribState.tempAttribState[i] = 0;
@@ -239,7 +239,7 @@ WebGLState.prototype.resetAttributes = function()
         this.attribState.attribState[i] = 0;
     }
 
-    var gl = this.gl;
+    let gl = this.gl;
 
     // im going to assume one is always active for performance reasons.
     for (i = 1; i < this.maxAttribs; i++)
@@ -266,12 +266,12 @@ WebGLState.prototype.resetToDefault = function()
     this.resetAttributes();
 
     // set active state so we can force overrides of gl state
-    for (var i = 0; i < this.activeState.length; i++)
+    for (let i = 0; i < this.activeState.length; i++)
     {
         this.activeState[i] = 32;
     }
 
-    var gl = this.gl;
+    let gl = this.gl;
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
 
 

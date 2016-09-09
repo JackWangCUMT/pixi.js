@@ -1,4 +1,4 @@
-var utils = require('../../utils'),
+let utils = require('../../utils'),
     CONST = require('../../const'),
     ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
     WebGLRenderer = require('../../renderers/webgl/WebGLRenderer'),
@@ -62,7 +62,7 @@ GraphicsRenderer.prototype.destroy = function ()
 {
     ObjectRenderer.prototype.destroy.call(this);
 
-    for (var i = 0; i < this.graphicsDataPool.length; ++i) {
+    for (let i = 0; i < this.graphicsDataPool.length; ++i) {
         this.graphicsDataPool[i].destroy();
     }
 
@@ -76,12 +76,12 @@ GraphicsRenderer.prototype.destroy = function ()
  */
 GraphicsRenderer.prototype.render = function(graphics)
 {
-    var renderer = this.renderer;
-    var gl = renderer.gl;
+    let renderer = this.renderer;
+    let gl = renderer.gl;
 
-    var webGLData;
+    let webGLData;
 
-    var webGL = graphics._webGL[this.CONTEXT_UID];
+    let webGL = graphics._webGL[this.CONTEXT_UID];
 
     if (!webGL || graphics.dirty !== webGL.dirty )
     {
@@ -94,14 +94,14 @@ GraphicsRenderer.prototype.render = function(graphics)
 
 
     // This  could be speeded up for sure!
-    var shader = this.primitiveShader;
+    let shader = this.primitiveShader;
     renderer.bindShader(shader);
     renderer.state.setBlendMode( graphics.blendMode );
 
-    for (var i = 0, n = webGL.data.length; i < n; i++)
+    for (let i = 0, n = webGL.data.length; i < n; i++)
     {
         webGLData = webGL.data[i];
-        var shaderTemp = webGLData.shader;
+        let shaderTemp = webGLData.shader;
 
         renderer.bindShader(shaderTemp);
         shaderTemp.uniforms.translationMatrix = graphics.transform.worldTransform.toArray(true);
@@ -122,10 +122,10 @@ GraphicsRenderer.prototype.render = function(graphics)
  */
 GraphicsRenderer.prototype.updateGraphics = function(graphics)
 {
-    var gl = this.renderer.gl;
+    let gl = this.renderer.gl;
 
      // get the contexts graphics object
-    var webGL = graphics._webGL[this.CONTEXT_UID];
+    let webGL = graphics._webGL[this.CONTEXT_UID];
 
     // if the graphics object does not exist in the webGL context time to create it!
     if (!webGL)
@@ -137,7 +137,7 @@ GraphicsRenderer.prototype.updateGraphics = function(graphics)
     // flag the graphics as not dirty as we are about to update it...
     webGL.dirty = graphics.dirty;
 
-    var i;
+    let i;
 
     // if the user cleared the graphics object we will need to clear every object
     if (graphics.clearDirty !== webGL.clearDirty)
@@ -147,7 +147,7 @@ GraphicsRenderer.prototype.updateGraphics = function(graphics)
         // loop through and return all the webGLDatas to the object pool so than can be reused later on
         for (i = 0; i < webGL.data.length; i++)
         {
-            var graphicsData = webGL.data[i];
+            let graphicsData = webGL.data[i];
             this.graphicsDataPool.push( graphicsData );
         }
 
@@ -156,14 +156,14 @@ GraphicsRenderer.prototype.updateGraphics = function(graphics)
         webGL.lastIndex = 0;
     }
 
-    var webGLData;
+    let webGLData;
 
     // loop through the graphics datas and construct each one..
     // if the object is a complex fill then the new stencil buffer technique will be used
     // other wise graphics objects will be pushed into a batch..
     for (i = webGL.lastIndex; i < graphics.graphicsData.length; i++)
     {
-        var data = graphics.graphicsData[i];
+        let data = graphics.graphicsData[i];
 
         //TODO - this can be simplified
         webGLData = this.getWebGLData(webGL, 0);
@@ -208,7 +208,7 @@ GraphicsRenderer.prototype.updateGraphics = function(graphics)
  */
 GraphicsRenderer.prototype.getWebGLData = function (webGL, type)
 {
-    var webGLData = webGL.data[webGL.data.length-1];
+    let webGLData = webGL.data[webGL.data.length-1];
 
     if (!webGLData || webGLData.points.length > 320000)
     {

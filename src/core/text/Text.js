@@ -1,11 +1,11 @@
-var Sprite = require('../sprites/Sprite'),
+let Sprite = require('../sprites/Sprite'),
     Texture = require('../textures/Texture'),
     math = require('../math'),
     utils = require('../utils'),
     CONST = require('../const'),
     TextStyle = require('./TextStyle');
 
-    var defaultDestroyOptions = {
+    let defaultDestroyOptions = {
             texture:true,
             children:false,
             baseTexture:true
@@ -17,7 +17,7 @@ var Sprite = require('../sprites/Sprite'),
  * A Text can be created directly from a string and a style object
  *
  * ```js
- * var text = new PIXI.Text('This is a pixi text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
+ * let text = new PIXI.Text('This is a pixi text',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'center'});
  * ```
  *
  * @class
@@ -79,7 +79,7 @@ function Text(text, style)
      */
     this._font = '';
 
-    var texture = Texture.fromCanvas(this.canvas);
+    let texture = Texture.fromCanvas(this.canvas);
     texture.orig = new math.Rectangle();
     texture.trim = new math.Rectangle();
     Sprite.call(this, texture);
@@ -117,7 +117,7 @@ Object.defineProperties(Text.prototype, {
         {
             this.updateText(true);
 
-            var sign = utils.sign(this.scale.x) || 1;
+            let sign = utils.sign(this.scale.x) || 1;
             this.scale.x = sign * value / this.texture.orig.width;
             this._width = value;
         }
@@ -140,7 +140,7 @@ Object.defineProperties(Text.prototype, {
         {
             this.updateText(true);
 
-            var sign = utils.sign(this.scale.y) || 1;
+            let sign = utils.sign(this.scale.y) || 1;
             this.scale.y = sign * value / this.texture.orig.height;
             this._height = value;
         }
@@ -208,7 +208,7 @@ Object.defineProperties(Text.prototype, {
  */
 Text.prototype.updateText = function (respectDirty)
 {
-    var style = this._style;
+    let style = this._style;
 
     // check if style has changed..
     if(this.localStyleID !== style.styleID)
@@ -222,32 +222,32 @@ Text.prototype.updateText = function (respectDirty)
     }
 
     // build canvas api font setting from invididual components. Convert a numeric style.fontSize to px
-    var fontSizeString = (typeof style.fontSize === 'number') ? style.fontSize + 'px' : style.fontSize;
+    let fontSizeString = (typeof style.fontSize === 'number') ? style.fontSize + 'px' : style.fontSize;
     this._font = style.fontStyle + ' ' + style.fontVariant + ' ' + style.fontWeight + ' ' + fontSizeString + ' ' + style.fontFamily;
 
     this.context.font = this._font;
 
     // word wrap
     // preserve original text
-    var outputText = style.wordWrap ? this.wordWrap(this._text) : this._text;
+    let outputText = style.wordWrap ? this.wordWrap(this._text) : this._text;
 
     // split text into lines
-    var lines = outputText.split(/(?:\r\n|\r|\n)/);
+    let lines = outputText.split(/(?:\r\n|\r|\n)/);
 
     // calculate text width
-    var lineWidths = new Array(lines.length);
-    var maxLineWidth = 0;
-    var fontProperties = this.determineFontProperties(this._font);
+    let lineWidths = new Array(lines.length);
+    let maxLineWidth = 0;
+    let fontProperties = this.determineFontProperties(this._font);
 
-    var i;
+    let i;
     for (i = 0; i < lines.length; i++)
     {
-        var lineWidth = this.context.measureText(lines[i]).width + ((lines[i].length - 1) * style.letterSpacing);
+        let lineWidth = this.context.measureText(lines[i]).width + ((lines[i].length - 1) * style.letterSpacing);
         lineWidths[i] = lineWidth;
         maxLineWidth = Math.max(maxLineWidth, lineWidth);
     }
 
-    var width = maxLineWidth + style.strokeThickness;
+    let width = maxLineWidth + style.strokeThickness;
     if (style.dropShadow)
     {
         width += style.dropShadowDistance;
@@ -258,9 +258,9 @@ Text.prototype.updateText = function (respectDirty)
     this.canvas.width = Math.ceil( ( width + this.context.lineWidth ) * this.resolution );
 
     // calculate text height
-    var lineHeight = this.style.lineHeight || fontProperties.fontSize + style.strokeThickness;
+    let lineHeight = this.style.lineHeight || fontProperties.fontSize + style.strokeThickness;
 
-    var height = Math.max(lineHeight, fontProperties.fontSize  + style.strokeThickness) + (lines.length - 1) * lineHeight;
+    let height = Math.max(lineHeight, fontProperties.fontSize  + style.strokeThickness) + (lines.length - 1) * lineHeight;
     if (style.dropShadow)
     {
         height += style.dropShadowDistance;
@@ -286,8 +286,8 @@ Text.prototype.updateText = function (respectDirty)
     this.context.lineJoin = style.lineJoin;
     this.context.miterLimit = style.miterLimit;
 
-    var linePositionX;
-    var linePositionY;
+    let linePositionX;
+    let linePositionY;
 
     if (style.dropShadow)
     {
@@ -298,8 +298,8 @@ Text.prototype.updateText = function (respectDirty)
             this.context.fillStyle = style.dropShadowColor;
         }
 
-        var xShadowOffset = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
-        var yShadowOffset = Math.sin(style.dropShadowAngle) * style.dropShadowDistance;
+        let xShadowOffset = Math.cos(style.dropShadowAngle) * style.dropShadowDistance;
+        let yShadowOffset = Math.sin(style.dropShadowAngle) * style.dropShadowDistance;
 
         for (i = 0; i < lines.length; i++)
         {
@@ -324,7 +324,7 @@ Text.prototype.updateText = function (respectDirty)
                     this.context.strokeStyle = style.dropShadowColor;
                     this.drawLetterSpacing(lines[i], linePositionX + xShadowOffset + style.padding, linePositionY + yShadowOffset + style.padding, true);
                     this.context.strokeStyle = style.stroke;
-			    }
+                }
             }
         }
     }
@@ -371,10 +371,10 @@ Text.prototype.updateText = function (respectDirty)
  */
 Text.prototype.drawLetterSpacing = function(text, x, y, isStroke)
 {
-    var style = this._style;
+    let style = this._style;
 
     // letterSpacing of 0 means normal
-    var letterSpacing = style.letterSpacing;
+    let letterSpacing = style.letterSpacing;
 
     if (letterSpacing === 0)
     {
@@ -389,7 +389,7 @@ Text.prototype.drawLetterSpacing = function(text, x, y, isStroke)
         return;
     }
 
-    var characters = String.prototype.split.call(text, ''),
+    let characters = String.prototype.split.call(text, ''),
         index = 0,
         current,
         currentPosition = x;
@@ -416,8 +416,8 @@ Text.prototype.drawLetterSpacing = function(text, x, y, isStroke)
  */
 Text.prototype.updateTexture = function ()
 {
-    var texture = this._texture;
-    var style = this._style;
+    let texture = this._texture;
+    let style = this._style;
 
     texture.baseTexture.hasLoaded = true;
     texture.baseTexture.resolution = this.resolution;
@@ -489,20 +489,20 @@ Text.prototype._renderCanvas = function (renderer)
  */
 Text.prototype.determineFontProperties = function (fontStyle)
 {
-    var properties = Text.fontPropertiesCache[fontStyle];
+    let properties = Text.fontPropertiesCache[fontStyle];
 
     if (!properties)
     {
         properties = {};
 
-        var canvas = Text.fontPropertiesCanvas;
-        var context = Text.fontPropertiesContext;
+        let canvas = Text.fontPropertiesCanvas;
+        let context = Text.fontPropertiesContext;
 
         context.font = fontStyle;
 
-        var width = Math.ceil(context.measureText('|MÉq').width);
-        var baseline = Math.ceil(context.measureText('M').width);
-        var height = 2 * baseline;
+        let width = Math.ceil(context.measureText('|MÉq').width);
+        let baseline = Math.ceil(context.measureText('M').width);
+        let height = 2 * baseline;
 
         baseline = baseline * 1.4 | 0;
 
@@ -518,14 +518,14 @@ Text.prototype.determineFontProperties = function (fontStyle)
         context.fillStyle = '#000';
         context.fillText('|MÉq', 0, baseline);
 
-        var imagedata = context.getImageData(0, 0, width, height).data;
-        var pixels = imagedata.length;
-        var line = width * 4;
+        let imagedata = context.getImageData(0, 0, width, height).data;
+        let pixels = imagedata.length;
+        let line = width * 4;
 
-        var i, j;
+        let i, j;
 
-        var idx = 0;
-        var stop = false;
+        let idx = 0;
+        let stop = false;
 
         // ascent. scan from top to bottom until we find a non red pixel
         for (i = 0; i < baseline; i++)
@@ -595,23 +595,23 @@ Text.prototype.wordWrap = function (text)
 {
     // Greedy wrapping algorithm that will wrap words as the line grows longer
     // than its horizontal bounds.
-    var result = '';
-    var lines = text.split('\n');
-    var wordWrapWidth = this._style.wordWrapWidth;
-    for (var i = 0; i < lines.length; i++)
+    let result = '';
+    let lines = text.split('\n');
+    let wordWrapWidth = this._style.wordWrapWidth;
+    for (let i = 0; i < lines.length; i++)
     {
-        var spaceLeft = wordWrapWidth;
-        var words = lines[i].split(' ');
-        for (var j = 0; j < words.length; j++)
+        let spaceLeft = wordWrapWidth;
+        let words = lines[i].split(' ');
+        for (let j = 0; j < words.length; j++)
         {
-            var wordWidth = this.context.measureText(words[j]).width;
+            let wordWidth = this.context.measureText(words[j]).width;
             if (this._style.breakWords && wordWidth > wordWrapWidth)
             {
                 // Word should be split in the middle
-                var characters = words[j].split('');
-                for (var c = 0; c < characters.length; c++)
+                let characters = words[j].split('');
+                for (let c = 0; c < characters.length; c++)
                 {
-                  var characterWidth = this.context.measureText(characters[c]).width;
+                  let characterWidth = this.context.measureText(characters[c]).width;
                   if (characterWidth > spaceLeft)
                   {
                     result += '\n' + characters[c];
@@ -630,7 +630,7 @@ Text.prototype.wordWrap = function (text)
             }
             else
             {
-                var wordWidthWithSpace = wordWidth + this.context.measureText(' ').width;
+                let wordWidthWithSpace = wordWidth + this.context.measureText(' ').width;
                 if (j === 0 || wordWidthWithSpace > spaceLeft)
                 {
                     // Skip printing the newline if it's the first word of the line that is
@@ -693,14 +693,14 @@ Text.prototype._generateFillStyle = function (style, lines)
     {
         // the gradient will be evenly spaced out according to how large the array is.
         // ['#FF0000', '#00FF00', '#0000FF'] would created stops at 0.25, 0.5 and 0.75
-        var i;
-        var gradient;
-        var totalIterations;
-        var currentIteration;
-        var stop;
+        let i;
+        let gradient;
+        let totalIterations;
+        let currentIteration;
+        let stop;
 
-        var width = this.canvas.width / this.resolution;
-        var height = this.canvas.height / this.resolution;
+        let width = this.canvas.width / this.resolution;
+        let height = this.canvas.height / this.resolution;
 
         if (style.fillGradientType === CONST.TEXT_GRADIENT.LINEAR_VERTICAL)
         {
@@ -714,7 +714,7 @@ Text.prototype._generateFillStyle = function (style, lines)
             for (i = 0; i < lines.length; i++)
             {
                 currentIteration += 1;
-                for (var j = 0; j < style.fill.length; j++)
+                for (let j = 0; j < style.fill.length; j++)
                 {
                     stop = (currentIteration / totalIterations);
                     gradient.addColorStop(stop, style.fill[j]);

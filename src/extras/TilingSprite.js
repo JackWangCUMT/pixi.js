@@ -1,4 +1,4 @@
-var core = require('../core'),
+let core = require('../core'),
     tempPoint = new core.Point(),
     Texture = require('../core/textures/Texture'),
     CanvasTinter = require('../core/sprites/canvas/CanvasTinter'),
@@ -121,7 +121,7 @@ TilingSprite.prototype._renderWebGL = function (renderer)
 {
 
     // tweak our texture temporarily..
-    var texture = this._texture;
+    let texture = this._texture;
 
     if(!texture || !texture._uvs)
     {
@@ -131,8 +131,8 @@ TilingSprite.prototype._renderWebGL = function (renderer)
      // get rid of any thing that may be batching.
     renderer.flush();
 
-    var gl = renderer.gl;
-    var glData = this._glDatas[renderer.CONTEXT_UID];
+    let gl = renderer.gl;
+    let glData = this._glDatas[renderer.CONTEXT_UID];
 
     if(!glData)
     {
@@ -147,7 +147,7 @@ TilingSprite.prototype._renderWebGL = function (renderer)
     }
 
     // if the sprite is trimmed and is not a tilingsprite then we need to add the extra space before transforming the sprite coords..
-    var vertices = glData.quad.vertices;
+    let vertices = glData.quad.vertices;
 
     vertices[0] = vertices[6] = ( this._width ) * -this.anchor.x;
     vertices[1] = vertices[3] = this._height * -this.anchor.y;
@@ -159,25 +159,25 @@ TilingSprite.prototype._renderWebGL = function (renderer)
 
     renderer.bindShader(glData.shader);
 
-    var textureUvs = texture._uvs,
+    let textureUvs = texture._uvs,
         textureWidth = texture._frame.width,
         textureHeight = texture._frame.height,
         textureBaseWidth = texture.baseTexture.width,
         textureBaseHeight = texture.baseTexture.height;
 
-    var uPixelSize = glData.shader.uniforms.uPixelSize;
+    let uPixelSize = glData.shader.uniforms.uPixelSize;
     uPixelSize[0] = 1.0/textureBaseWidth;
     uPixelSize[1] = 1.0/textureBaseHeight;
     glData.shader.uniforms.uPixelSize = uPixelSize;
 
-    var uFrame = glData.shader.uniforms.uFrame;
+    let uFrame = glData.shader.uniforms.uFrame;
     uFrame[0] = textureUvs.x0;
     uFrame[1] = textureUvs.y0;
     uFrame[2] = textureUvs.x1 - textureUvs.x0;
     uFrame[3] = textureUvs.y2 - textureUvs.y0;
     glData.shader.uniforms.uFrame = uFrame;
 
-    var uTransform = glData.shader.uniforms.uTransform;
+    let uTransform = glData.shader.uniforms.uTransform;
     uTransform[0] = (this.tilePosition.x % (textureWidth * this.tileScale.x)) / this._width;
     uTransform[1] = (this.tilePosition.y % (textureHeight * this.tileScale.y)) / this._height;
     uTransform[2] = ( textureBaseWidth / this._width ) * this.tileScale.x;
@@ -186,7 +186,7 @@ TilingSprite.prototype._renderWebGL = function (renderer)
 
     glData.shader.uniforms.translationMatrix = this.worldTransform.toArray(true);
 
-    var color = tempArray;
+    let color = tempArray;
 
     core.utils.hex2rgb(this.tint, color);
     color[3] = this.worldAlpha;
@@ -207,14 +207,14 @@ TilingSprite.prototype._renderWebGL = function (renderer)
  */
 TilingSprite.prototype._renderCanvas = function (renderer)
 {
-    var texture = this._texture;
+    let texture = this._texture;
 
     if (!texture.baseTexture.hasLoaded)
     {
       return;
     }
 
-    var context = renderer.context,
+    let context = renderer.context,
         transform = this.worldTransform,
         resolution = renderer.resolution,
         baseTexture = texture.baseTexture,
@@ -226,7 +226,7 @@ TilingSprite.prototype._renderCanvas = function (renderer)
     if(!this._canvasPattern)
     {
         // cut an object from a spritesheet..
-        var tempCanvas = new core.CanvasRenderTarget(texture._frame.width, texture._frame.height);
+        let tempCanvas = new core.CanvasRenderTarget(texture._frame.width, texture._frame.height);
 
         // Tint the tiling sprite
         if (this.tint !== 0xFFFFFF)
@@ -262,7 +262,7 @@ TilingSprite.prototype._renderCanvas = function (renderer)
                       modY + (this.anchor.y * -this._height));
 
     // check blend mode
-    var compositeOperation = renderer.blendModes[this.blendMode];
+    let compositeOperation = renderer.blendModes[this.blendMode];
     if (compositeOperation !== renderer.context.globalCompositeOperation)
     {
         context.globalCompositeOperation = compositeOperation;
@@ -289,37 +289,37 @@ TilingSprite.prototype._renderCanvas = function (renderer)
  */
 TilingSprite.prototype.getBounds = function ()
 {
-    var width = this._width;
-    var height = this._height;
+    let width = this._width;
+    let height = this._height;
 
-    var w0 = width * (1-this.anchor.x);
-    var w1 = width * -this.anchor.x;
+    let w0 = width * (1-this.anchor.x);
+    let w1 = width * -this.anchor.x;
 
-    var h0 = height * (1-this.anchor.y);
-    var h1 = height * -this.anchor.y;
+    let h0 = height * (1-this.anchor.y);
+    let h1 = height * -this.anchor.y;
 
-    var worldTransform = this.worldTransform;
+    let worldTransform = this.worldTransform;
 
-    var a = worldTransform.a;
-    var b = worldTransform.b;
-    var c = worldTransform.c;
-    var d = worldTransform.d;
-    var tx = worldTransform.tx;
-    var ty = worldTransform.ty;
+    let a = worldTransform.a;
+    let b = worldTransform.b;
+    let c = worldTransform.c;
+    let d = worldTransform.d;
+    let tx = worldTransform.tx;
+    let ty = worldTransform.ty;
 
-    var x1 = a * w1 + c * h1 + tx;
-    var y1 = d * h1 + b * w1 + ty;
+    let x1 = a * w1 + c * h1 + tx;
+    let y1 = d * h1 + b * w1 + ty;
 
-    var x2 = a * w0 + c * h1 + tx;
-    var y2 = d * h1 + b * w0 + ty;
+    let x2 = a * w0 + c * h1 + tx;
+    let y2 = d * h1 + b * w0 + ty;
 
-    var x3 = a * w0 + c * h0 + tx;
-    var y3 = d * h0 + b * w0 + ty;
+    let x3 = a * w0 + c * h0 + tx;
+    let y3 = d * h0 + b * w0 + ty;
 
-    var x4 =  a * w1 + c * h0 + tx;
-    var y4 =  d * h0 + b * w1 + ty;
+    let x4 =  a * w1 + c * h0 + tx;
+    let y4 =  d * h0 + b * w1 + ty;
 
-    var minX,
+    let minX,
         maxX,
         minY,
         maxY;
@@ -344,7 +344,7 @@ TilingSprite.prototype.getBounds = function ()
     maxY = y3 > maxY ? y3 : maxY;
     maxY = y4 > maxY ? y4 : maxY;
 
-    var bounds = this._bounds;
+    let bounds = this._bounds;
 
     bounds.x = minX;
     bounds.width = maxX - minX;
@@ -366,10 +366,10 @@ TilingSprite.prototype.containsPoint = function( point )
 {
     this.worldTransform.applyInverse(point,  tempPoint);
 
-    var width = this._width;
-    var height = this._height;
-    var x1 = -width * this.anchor.x;
-    var y1;
+    let width = this._width;
+    let height = this._height;
+    let x1 = -width * this.anchor.x;
+    let y1;
 
     if ( tempPoint.x > x1 && tempPoint.x < x1 + width )
     {
@@ -428,7 +428,7 @@ TilingSprite.from = function (source,width,height)
  */
 TilingSprite.fromFrame = function (frameId,width,height)
 {
-    var texture = core.utils.TextureCache[frameId];
+    let texture = core.utils.TextureCache[frameId];
 
     if (!texture)
     {

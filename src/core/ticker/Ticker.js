@@ -1,4 +1,4 @@
-var CONST = require('../const'),
+let CONST = require('../const'),
     EventEmitter = require('eventemitter3'),
     // Internal event used by composed emitter
     TICK = 'tick';
@@ -15,7 +15,7 @@ var CONST = require('../const'),
  */
 function Ticker()
 {
-    var _this = this;
+    let _this = this;
 
     /**
      * Internal tick method bound to ticker instance.
@@ -170,7 +170,7 @@ Object.defineProperties(Ticker.prototype, {
         set: function(fps)
         {
             // Clamp: 0 to TARGET_FPMS
-            var minFPMS = Math.min(Math.max(0, fps) / 1000, CONST.TARGET_FPMS);
+            let minFPMS = Math.min(Math.max(0, fps) / 1000, CONST.TARGET_FPMS);
             this._maxElapsedMS = 1 / minFPMS;
         }
     }
@@ -327,7 +327,7 @@ Ticker.prototype.stop = function stop()
  */
 Ticker.prototype.update = function update(currentTime)
 {
-    var elapsedMS;
+    let elapsedMS;
 
     // Allow calling update directly with default currentTime.
     currentTime = currentTime || performance.now();

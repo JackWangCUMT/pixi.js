@@ -1,4 +1,4 @@
-var SystemRenderer = require('../SystemRenderer'),
+let SystemRenderer = require('../SystemRenderer'),
     MaskManager = require('./managers/MaskManager'),
     StencilManager = require('./managers/StencilManager'),
     FilterManager = require('./managers/FilterManager'),
@@ -14,7 +14,7 @@ var SystemRenderer = require('../SystemRenderer'),
     glCore = require('pixi-gl-core'),
     CONST = require('../../const');
 
-var CONTEXT_UID = 0;
+let CONTEXT_UID = 0;
 
 /**
  * The WebGLRenderer draws the scene and all its content onto a webGL enabled canvas. This renderer
@@ -178,7 +178,7 @@ utils.pluginTarget.mixin(WebGLRenderer);
  */
 WebGLRenderer.prototype._initContext = function ()
 {
-    var gl = this.gl;
+    let gl = this.gl;
 
     // create a texture manager...
     this.textureManager = new TextureManager(this);
@@ -230,7 +230,7 @@ WebGLRenderer.prototype.render = function (displayObject, renderTexture, clear, 
     if(!skipUpdateTransform)
     {
         // update the scene graph
-        var cacheParent = displayObject.parent;
+        let cacheParent = displayObject.parent;
         displayObject.parent = this._tempDisplayObjectParent;
         displayObject.updateTransform();
         displayObject.parent = cacheParent;
@@ -349,12 +349,12 @@ WebGLRenderer.prototype.setTransform = function (matrix)
  */
 WebGLRenderer.prototype.bindRenderTexture = function (renderTexture, transform)
 {
-    var renderTarget;
+    let renderTarget;
 
     if(renderTexture)
     {
-        var baseTexture = renderTexture.baseTexture;
-        var gl = this.gl;
+        let baseTexture = renderTexture.baseTexture;
+        let gl = this.gl;
 
         if(!baseTexture._glRenderTargets[this.CONTEXT_UID])
         {
@@ -439,7 +439,7 @@ WebGLRenderer.prototype.bindTexture = function (texture, location)
 {
     texture = texture.baseTexture || texture;
 
-    var gl = this.gl;
+    let gl = this.gl;
 
     //TODO test perf of cache?
     location = location || 0;

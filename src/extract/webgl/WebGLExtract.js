@@ -1,4 +1,4 @@
-var core = require('../../core'),
+let core = require('../../core'),
     tempRect = new core.Rectangle();
 
 /**
@@ -25,7 +25,7 @@ module.exports = WebGLExtract;
  */
 WebGLExtract.prototype.image = function ( target )
 {
-	var image = new Image();
+    let image = new Image();
     image.src = this.base64( target );
     return image;
 };
@@ -47,12 +47,12 @@ WebGLExtract.prototype.base64 = function ( target )
  */
 WebGLExtract.prototype.canvas = function ( target )
 {
-	var renderer = this.renderer;
-	var textureBuffer;
-	var resolution;
-    var frame;
-    var flipY = false;
-    var renderTexture;
+    let renderer = this.renderer;
+    let textureBuffer;
+    let resolution;
+    let frame;
+    let flipY = false;
+    let renderTexture;
 
     if(target)
     {
@@ -67,31 +67,31 @@ WebGLExtract.prototype.canvas = function ( target )
         }
     }
 
-	if(renderTexture)
-	{
-		textureBuffer = renderTexture.baseTexture._glRenderTargets[this.renderer.CONTEXT_UID];
-		resolution = textureBuffer.resolution;
-	    frame = renderTexture.frame;
+    if(renderTexture)
+    {
+        textureBuffer = renderTexture.baseTexture._glRenderTargets[this.renderer.CONTEXT_UID];
+        resolution = textureBuffer.resolution;
+        frame = renderTexture.frame;
         flipY = false;
     }
-	else
-	{
-		textureBuffer = this.renderer.rootRenderTarget;
-		resolution = textureBuffer.resolution;
+    else
+    {
+        textureBuffer = this.renderer.rootRenderTarget;
+        resolution = textureBuffer.resolution;
         flipY = true;
 
         frame = tempRect;
         frame.width = textureBuffer.size.width;
         frame.height = textureBuffer.size.height;
 
-	}
+    }
 
 
 
-    var width = frame.width * resolution;
-    var height = frame.height * resolution;
+    let width = frame.width * resolution;
+    let height = frame.height * resolution;
 
-   	var canvasBuffer = new core.CanvasRenderTarget(width, height);
+       let canvasBuffer = new core.CanvasRenderTarget(width, height);
 
     if(textureBuffer)
     {
@@ -99,14 +99,14 @@ WebGLExtract.prototype.canvas = function ( target )
         renderer.bindRenderTarget(textureBuffer);
 
         // set up an array of pixels
-        var webGLPixels = new Uint8Array(4 * width * height);
+        let webGLPixels = new Uint8Array(4 * width * height);
 
         // read pixels to the array
-        var gl = renderer.gl;
+        let gl = renderer.gl;
         gl.readPixels(frame.x * resolution, frame.y * resolution, width, height, gl.RGBA, gl.UNSIGNED_BYTE, webGLPixels);
 
         // add the pixels to the canvas
-        var canvasData = canvasBuffer.context.getImageData(0, 0, width, height);
+        let canvasData = canvasBuffer.context.getImageData(0, 0, width, height);
         canvasData.data.set(webGLPixels);
 
         canvasBuffer.context.putImageData(canvasData, 0, 0);
@@ -130,11 +130,11 @@ WebGLExtract.prototype.canvas = function ( target )
  */
 WebGLExtract.prototype.pixels = function ( target )
 {
-    var renderer = this.renderer;
-    var textureBuffer;
-    var resolution;
-    var frame;
-    var renderTexture;
+    let renderer = this.renderer;
+    let textureBuffer;
+    let resolution;
+    let frame;
+    let renderTexture;
 
     if(target)
     {
@@ -165,17 +165,17 @@ WebGLExtract.prototype.pixels = function ( target )
         frame.height = textureBuffer.size.height;
     }
 
-    var width = frame.width * resolution;
-    var height = frame.height * resolution;
+    let width = frame.width * resolution;
+    let height = frame.height * resolution;
 
-    var webGLPixels = new Uint8Array(4 * width * height);
+    let webGLPixels = new Uint8Array(4 * width * height);
 
     if(textureBuffer)
     {
         // bind the buffer
         renderer.bindRenderTarget(textureBuffer);
         // read pixels to the array
-        var gl = renderer.gl;
+        let gl = renderer.gl;
         gl.readPixels(frame.x * resolution, frame.y * resolution, width, height, gl.RGBA, gl.UNSIGNED_BYTE, webGLPixels);
     }
 

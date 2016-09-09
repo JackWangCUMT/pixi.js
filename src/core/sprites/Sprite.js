@@ -1,4 +1,4 @@
-var math = require('../math'),
+let math = require('../math'),
     Texture = require('../textures/Texture'),
     Container = require('../display/Container'),
     utils = require('../utils'),
@@ -11,7 +11,7 @@ var math = require('../math'),
  * A sprite can be created directly from an image like this:
  *
  * ```js
- * var sprite = new PIXI.Sprite.fromImage('assets/image.png');
+ * let sprite = new PIXI.Sprite.fromImage('assets/image.png');
  * ```
  *
  * @class
@@ -130,7 +130,7 @@ Object.defineProperties(Sprite.prototype, {
         },
         set: function (value)
         {
-            var sign = utils.sign(this.scale.x) || 1;
+            let sign = utils.sign(this.scale.x) || 1;
             this.scale.x = sign * value / this.texture.orig.width;
             this._width = value;
         }
@@ -149,7 +149,7 @@ Object.defineProperties(Sprite.prototype, {
         },
         set: function (value)
         {
-            var sign = utils.sign(this.scale.y) || 1;
+            let sign = utils.sign(this.scale.y) || 1;
             this.scale.y = sign * value / this.texture.orig.height;
             this._height = value;
         }
@@ -247,7 +247,7 @@ Sprite.prototype.calculateVertices = function ()
 
     // set the vertex data
 
-    var texture = this._texture,
+    let texture = this._texture,
         wt = this.transform.worldTransform,
         a = wt.a, b = wt.b, c = wt.c, d = wt.d, tx = wt.tx, ty = wt.ty,
         vertexData = this.vertexData,
@@ -303,12 +303,12 @@ Sprite.prototype.calculateTrimmedVertices = function ()
     }
 
     // lets do some special trim code!
-    var texture = this._texture,
+    let texture = this._texture,
         vertexData = this.vertexTrimmedData,
         orig = texture.orig;
 
     // lets calculate the new untrimmed bounds..
-    var wt = this.transform.worldTransform,
+    let wt = this.transform.worldTransform,
         a = wt.a, b = wt.b, c = wt.c, d = wt.d, tx = wt.tx, ty = wt.ty,
         w0, w1, h0, h1;
 
@@ -365,7 +365,7 @@ Sprite.prototype._renderCanvas = function (renderer)
 Sprite.prototype._calculateBounds = function ()
 {
 
-    var trim = this._texture.trim,
+    let trim = this._texture.trim,
         orig = this._texture.orig;
 
     //First lets check to see if the current texture has a trim..
@@ -428,10 +428,10 @@ Sprite.prototype.containsPoint = function( point )
 {
     this.worldTransform.applyInverse(point,  tempPoint);
 
-    var width = this._texture.orig.width;
-    var height = this._texture.orig.height;
-    var x1 = -width * this.anchor.x;
-    var y1;
+    let width = this._texture.orig.width;
+    let height = this._texture.orig.height;
+    let x1 = -width * this.anchor.x;
+    let y1;
 
     if ( tempPoint.x > x1 && tempPoint.x < x1 + width )
     {
@@ -462,10 +462,10 @@ Sprite.prototype.destroy = function (options)
 
     this.anchor = null;
 
-    var destroyTexture = typeof options === 'boolean' ? options : options && options.texture;
+    let destroyTexture = typeof options === 'boolean' ? options : options && options.texture;
     if (destroyTexture)
     {
-        var destroyBaseTexture = typeof options === 'boolean' ? options : options && options.baseTexture;
+        let destroyBaseTexture = typeof options === 'boolean' ? options : options && options.baseTexture;
         this._texture.destroy(!!destroyBaseTexture);
     }
 
@@ -498,7 +498,7 @@ Sprite.from = function (source)
  */
 Sprite.fromFrame = function (frameId)
 {
-    var texture = utils.TextureCache[frameId];
+    let texture = utils.TextureCache[frameId];
 
     if (!texture)
     {

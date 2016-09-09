@@ -1,4 +1,4 @@
-var math = require('../../../math'),
+let math = require('../../../math'),
     CONST = require('../../../const'),
     GLFramebuffer = require('pixi-gl-core').GLFramebuffer;
 
@@ -16,7 +16,7 @@ var math = require('../../../math'),
  * @param [resolution=1] {number} The current resolution / device pixel ratio
  * @param [root=false] {boolean} Whether this object is the root element or not
  */
-var RenderTarget = function(gl, width, height, scaleMode, resolution, root)
+let RenderTarget = function(gl, width, height, scaleMode, resolution, root)
 {
     //TODO Resolution could go here ( eg low res blurs )
 
@@ -177,7 +177,7 @@ module.exports = RenderTarget;
  */
 RenderTarget.prototype.clear = function(clearColor)
 {
-    var cc = clearColor || this.clearColor;
+    let cc = clearColor || this.clearColor;
     this.frameBuffer.clear(cc[0],cc[1],cc[2],cc[3]);//r,g,b,a);
 };
 
@@ -211,7 +211,7 @@ RenderTarget.prototype.setFrame = function(destinationFrame, sourceFrame)
 RenderTarget.prototype.activate = function()
 {
     //TOOD refactor usage of frame..
-    var gl = this.gl;
+    let gl = this.gl;
 
     // make surethe texture is unbound!
     this.frameBuffer.bind();
@@ -249,7 +249,7 @@ RenderTarget.prototype.activate = function()
  */
 RenderTarget.prototype.calculateProjection = function (destinationFrame, sourceFrame)
 {
-    var pm = this.projectionMatrix;
+    let pm = this.projectionMatrix;
 
     sourceFrame = sourceFrame || destinationFrame;
 
@@ -300,7 +300,7 @@ RenderTarget.prototype.resize = function (width, height)
 
     this.frameBuffer.resize(width * this.resolution, height * this.resolution);
 
-    var projectionFrame = this.frame || this.size;
+    let projectionFrame = this.frame || this.size;
 
     this.calculateProjection( projectionFrame );
 };

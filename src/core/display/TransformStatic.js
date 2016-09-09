@@ -1,4 +1,4 @@
-var math = require('../math'),
+let math = require('../math'),
     TransformBase = require('./TransformBase');
 
 /**
@@ -74,11 +74,11 @@ TransformStatic.prototype.updateSkew = function ()
  * Updates only local matrix
  */
 TransformStatic.prototype.updateLocalTransform = function() {
-    var lt = this.localTransform;
+    let lt = this.localTransform;
     if(this._localID !== this._currentLocalID)
     {
         // get the matrix values of the displayobject based on its transform properties..
-        var a,b,c,d;
+        let a,b,c,d;
 
         a  =  this._cr * this.scale._x;
         b  =  this._sr * this.scale._x;
@@ -106,14 +106,14 @@ TransformStatic.prototype.updateLocalTransform = function() {
  */
 TransformStatic.prototype.updateTransform = function (parentTransform)
 {
-    var pt = parentTransform.worldTransform;
-    var wt = this.worldTransform;
-    var lt = this.localTransform;
+    let pt = parentTransform.worldTransform;
+    let wt = this.worldTransform;
+    let lt = this.localTransform;
 
     if(this._localID !== this._currentLocalID)
     {
         // get the matrix values of the displayobject based on its transform properties..
-        var a,b,c,d;
+        let a,b,c,d;
 
         a  =  this._cr * this.scale._x;
         b  =  this._sr * this.scale._x;

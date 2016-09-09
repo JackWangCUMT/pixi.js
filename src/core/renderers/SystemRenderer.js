@@ -1,4 +1,4 @@
-var utils = require('../utils'),
+let utils = require('../utils'),
     math = require('../math'),
     CONST = require('../const'),
     Container = require('../display/Container'),
@@ -34,7 +34,7 @@ function SystemRenderer(system, width, height, options)
     // prepare options
     if (options)
     {
-        for (var i in CONST.DEFAULT_RENDER_OPTIONS)
+        for (let i in CONST.DEFAULT_RENDER_OPTIONS)
         {
             if (typeof options[i] === 'undefined')
             {
@@ -235,9 +235,9 @@ SystemRenderer.prototype.resize = function (width, height) {
  */
 SystemRenderer.prototype.generateTexture = function (displayObject, scaleMode, resolution) {
 
-    var bounds = displayObject.getLocalBounds();
+    let bounds = displayObject.getLocalBounds();
 
-    var renderTexture = RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
+    let renderTexture = RenderTexture.create(bounds.width | 0, bounds.height | 0, scaleMode, resolution);
 
     tempMatrix.tx = -bounds.x;
     tempMatrix.ty = -bounds.y;

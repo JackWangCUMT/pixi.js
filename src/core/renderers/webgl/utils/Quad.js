@@ -1,4 +1,4 @@
-var glCore = require('pixi-gl-core'),
+let glCore = require('pixi-gl-core'),
     createIndicesForQuads = require('../../../utils/createIndicesForQuads');
 
 /**
@@ -44,7 +44,7 @@ function Quad(gl, state)
 
     this.interleaved = new Float32Array(8 * 2);
 
-    for (var i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
         this.interleaved[i*4] = this.vertices[(i*2)];
         this.interleaved[(i*4)+1] = this.vertices[(i*2)+1];
         this.interleaved[(i*4)+2] = this.uvs[i*2];
@@ -94,8 +94,8 @@ Quad.prototype.initVao = function(shader)
  */
 Quad.prototype.map = function(targetTextureFrame, destinationFrame)
 {
-    var x = 0; //destinationFrame.x / targetTextureFrame.width;
-    var y = 0; //destinationFrame.y / targetTextureFrame.height;
+    let x = 0; //destinationFrame.x / targetTextureFrame.width;
+    let y = 0; //destinationFrame.y / targetTextureFrame.height;
 
     this.uvs[0] = x;
     this.uvs[1] = y;
@@ -145,7 +145,7 @@ Quad.prototype.draw = function()
  */
 Quad.prototype.upload = function()
 {
-    for (var i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
         this.interleaved[i*4] = this.vertices[(i*2)];
         this.interleaved[(i*4)+1] = this.vertices[(i*2)+1];
         this.interleaved[(i*4)+2] = this.uvs[i*2];
@@ -162,7 +162,7 @@ Quad.prototype.upload = function()
  */
 Quad.prototype.destroy = function()
 {
-    var gl = this.gl;
+    let gl = this.gl;
 
      gl.deleteBuffer(this.vertexBuffer);
      gl.deleteBuffer(this.indexBuffer);

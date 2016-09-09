@@ -1,4 +1,4 @@
-var glCore = require('pixi-gl-core'),
+let glCore = require('pixi-gl-core'),
     createIndicesForQuads = require('../../core/utils/createIndicesForQuads');
 
 /**
@@ -63,9 +63,9 @@ function ParticleBuffer(gl, properties, dynamicPropertyFlags, size)
      */
     this.staticProperties = [];
 
-    for (var i = 0; i < properties.length; i++)
+    for (let i = 0; i < properties.length; i++)
     {
-        var property = properties[i];
+        let property = properties[i];
 
         // Make copy of properties object so that when we edit the offset it doesn't
         // change all other instances of the object literal
@@ -109,11 +109,11 @@ module.exports = ParticleBuffer;
  */
 ParticleBuffer.prototype.initBuffers = function ()
 {
-    var gl = this.gl;
-    var i;
-    var property;
+    let gl = this.gl;
+    let i;
+    let property;
 
-    var dynamicOffset = 0;
+    let dynamicOffset = 0;
 
 
     /**
@@ -140,7 +140,7 @@ ParticleBuffer.prototype.initBuffers = function ()
     this.dynamicBuffer = glCore.GLBuffer.createVertexBuffer(gl, this.dynamicData, gl.STREAM_DRAW);
 
     // static //
-    var staticOffset = 0;
+    let staticOffset = 0;
     this.staticStride = 0;
 
     for (i = 0; i < this.staticProperties.length; i++)
@@ -180,9 +180,9 @@ ParticleBuffer.prototype.initBuffers = function ()
  */
 ParticleBuffer.prototype.uploadDynamic = function(children, startIndex, amount)
 {
-    for (var i = 0; i < this.dynamicProperties.length; i++)
+    for (let i = 0; i < this.dynamicProperties.length; i++)
     {
-        var property = this.dynamicProperties[i];
+        let property = this.dynamicProperties[i];
         property.uploadFunction(children, startIndex, amount, this.dynamicData, this.dynamicStride, property.offset);
     }
 
@@ -195,9 +195,9 @@ ParticleBuffer.prototype.uploadDynamic = function(children, startIndex, amount)
  */
 ParticleBuffer.prototype.uploadStatic = function(children, startIndex, amount)
 {
-    for (var i = 0; i < this.staticProperties.length; i++)
+    for (let i = 0; i < this.staticProperties.length; i++)
     {
-        var property = this.staticProperties[i];
+        let property = this.staticProperties[i];
         property.uploadFunction(children, startIndex, amount, this.staticData, this.staticStride, property.offset);
     }
 

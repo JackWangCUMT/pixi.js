@@ -1,4 +1,4 @@
-var utils = require('../utils'),
+let utils = require('../utils'),
     DisplayObject = require('./DisplayObject');
 
 /**
@@ -6,7 +6,7 @@ var utils = require('../utils'),
  * It is the base class of all display objects that act as a container for other objects.
  *
  *```js
- * var container = new PIXI.Container();
+ * let container = new PIXI.Container();
  * container.addChild(sprite);
  * ```
  * @class
@@ -46,7 +46,7 @@ Object.defineProperties(Container.prototype, {
         set: function (value)
         {
 
-            var width = this.getLocalBounds().width;
+            let width = this.getLocalBounds().width;
 
             if (width !== 0)
             {
@@ -76,7 +76,7 @@ Object.defineProperties(Container.prototype, {
         set: function (value)
         {
 
-            var height = this.getLocalBounds().height;
+            let height = this.getLocalBounds().height;
 
             if (height !== 0)
             {
@@ -108,14 +108,14 @@ Container.prototype.onChildrenChange = function () {};
  */
 Container.prototype.addChild = function (child)
 {
-    var argumentsLength = arguments.length;
+    let argumentsLength = arguments.length;
 
     // if there is only one argument we can bypass looping through the them
     if(argumentsLength > 1)
     {
         // loop through the arguments property and add all children
         // use it the right way (.length and [i]) so that this function can still be optimised by JS runtimes
-        for (var i = 0; i < argumentsLength; i++)
+        for (let i = 0; i < argumentsLength; i++)
         {
             this.addChild( arguments[i] );
         }
@@ -188,8 +188,8 @@ Container.prototype.swapChildren = function (child, child2)
         return;
     }
 
-    var index1 = this.getChildIndex(child);
-    var index2 = this.getChildIndex(child2);
+    let index1 = this.getChildIndex(child);
+    let index2 = this.getChildIndex(child2);
 
     if (index1 < 0 || index2 < 0)
     {
@@ -209,7 +209,7 @@ Container.prototype.swapChildren = function (child, child2)
  */
 Container.prototype.getChildIndex = function (child)
 {
-    var index = this.children.indexOf(child);
+    let index = this.children.indexOf(child);
 
     if (index === -1)
     {
@@ -232,7 +232,7 @@ Container.prototype.setChildIndex = function (child, index)
         throw new Error('The supplied index is out of bounds');
     }
 
-    var currentIndex = this.getChildIndex(child);
+    let currentIndex = this.getChildIndex(child);
 
     utils.removeItems(this.children, currentIndex, 1); // remove from old position
     this.children.splice(index, 0, child); //add at new position
@@ -263,21 +263,21 @@ Container.prototype.getChildAt = function (index)
  */
 Container.prototype.removeChild = function (child)
 {
-    var argumentsLength = arguments.length;
+    let argumentsLength = arguments.length;
 
     // if there is only one argument we can bypass looping through the them
     if(argumentsLength > 1)
     {
         // loop through the arguments property and add all children
         // use it the right way (.length and [i]) so that this function can still be optimised by JS runtimes
-        for (var i = 0; i < argumentsLength; i++)
+        for (let i = 0; i < argumentsLength; i++)
         {
             this.removeChild( arguments[i] );
         }
     }
     else
     {
-        var index = this.children.indexOf(child);
+        let index = this.children.indexOf(child);
 
         if (index === -1)
         {
@@ -303,7 +303,7 @@ Container.prototype.removeChild = function (child)
  */
 Container.prototype.removeChildAt = function (index)
 {
-    var child = this.getChildAt(index);
+    let child = this.getChildAt(index);
 
     child.parent = null;
     utils.removeItems(this.children, index, 1);
@@ -323,10 +323,10 @@ Container.prototype.removeChildAt = function (index)
  */
 Container.prototype.removeChildren = function (beginIndex, endIndex)
 {
-    var begin = beginIndex || 0;
-    var end = typeof endIndex === 'number' ? endIndex : this.children.length;
-    var range = end - begin;
-    var removed, i;
+    let begin = beginIndex || 0;
+    let end = typeof endIndex === 'number' ? endIndex : this.children.length;
+    let range = end - begin;
+    let removed, i;
 
     if (range > 0 && range <= end)
     {
@@ -375,7 +375,7 @@ Container.prototype.updateTransform = function ()
     //TODO: check render flags, how to process stuff here
     this.worldAlpha = this.alpha * this.parent.worldAlpha;
 
-    for (var i = 0, j = this.children.length; i < j; ++i)
+    for (let i = 0, j = this.children.length; i < j; ++i)
     {
         this.children[i].updateTransform();
     }
@@ -396,9 +396,9 @@ Container.prototype.calculateBounds = function ()
 
     this._calculateBounds();
 
-    for (var i = 0; i < this.children.length; i++)
+    for (let i = 0; i < this.children.length; i++)
     {
-        var child = this.children[i];
+        let child = this.children[i];
 
         child.calculateBounds();
 
@@ -439,7 +439,7 @@ Container.prototype.renderWebGL = function (renderer)
         this._renderWebGL(renderer);
 
         // simple render children!
-        for (var i = 0, j = this.children.length; i < j; ++i)
+        for (let i = 0, j = this.children.length; i < j; ++i)
         {
             this.children[i].renderWebGL(renderer);
         }
@@ -450,9 +450,9 @@ Container.prototype.renderAdvancedWebGL = function (renderer)
 {
     renderer.currentRenderer.flush();
 
-    var filters = this._filters;
-    var mask = this._mask;
-    var i, j;
+    let filters = this._filters;
+    let mask = this._mask;
+    let i, j;
 
     // push filter first as we need to ensure the stencil buffer is correct for any masking
     if ( filters )
@@ -515,7 +515,7 @@ Container.prototype.renderAdvancedWebGL = function (renderer)
  * @param renderer {PIXI.WebGLRenderer} The renderer
  * @private
  */
-Container.prototype._renderWebGL = function (renderer) // jshint unused:false
+Container.prototype._renderWebGL = function (renderer) // eslint-disable-line no-unused-vars
 {
     // this is where content itself gets rendered...
 };
@@ -526,7 +526,7 @@ Container.prototype._renderWebGL = function (renderer) // jshint unused:false
  * @param renderer {PIXI.CanvasRenderer} The renderer
  * @private
  */
-Container.prototype._renderCanvas = function (renderer) // jshint unused:false
+Container.prototype._renderCanvas = function (renderer) // eslint-disable-line no-unused-vars
 {
     // this is where content itself gets rendered...
 };
@@ -551,7 +551,7 @@ Container.prototype.renderCanvas = function (renderer)
     }
 
     this._renderCanvas(renderer);
-    for (var i = 0, j = this.children.length; i < j; ++i)
+    for (let i = 0, j = this.children.length; i < j; ++i)
     {
         this.children[i].renderCanvas(renderer);
     }
@@ -573,16 +573,16 @@ Container.prototype.destroy = function (options)
 {
     DisplayObject.prototype.destroy.call(this);
 
-    var destroyChildren = typeof options === 'boolean' ? options : options && options.children;
+    let destroyChildren = typeof options === 'boolean' ? options : options && options.children;
 
-    var oldChildren = this.children;
+    let oldChildren = this.children;
     this.children = null;
 
     if (destroyChildren)
     {
-        for (var i = oldChildren.length - 1; i >= 0; i--)
+        for (let i = oldChildren.length - 1; i >= 0; i--)
         {
-            var child = oldChildren[i];
+            let child = oldChildren[i];
             child.parent = null;
             child.destroy(options);
         }

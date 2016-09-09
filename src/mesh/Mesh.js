@@ -1,4 +1,4 @@
-var core = require('../core'),
+let core = require('../core'),
     glCore = require('pixi-gl-core'),
     Shader = require('./webgl/MeshShader'),
     tempPoint = new core.Point(),
@@ -176,8 +176,8 @@ Mesh.prototype._renderWebGL = function (renderer)
     renderer.flush();
 
     //  renderer.plugins.mesh.render(this);
-    var gl = renderer.gl;
-    var glData = this._glDatas[renderer.CONTEXT_UID];
+    let gl = renderer.gl;
+    let glData = this._glDatas[renderer.CONTEXT_UID];
 
     if(!glData)
     {
@@ -226,7 +226,7 @@ Mesh.prototype._renderWebGL = function (renderer)
     glData.shader.uniforms.alpha = this.worldAlpha;
     glData.shader.uniforms.tint = this.tintRgb;
 
-    var drawMode = this.drawMode === Mesh.DRAW_MODES.TRIANGLE_MESH ? gl.TRIANGLE_STRIP : gl.TRIANGLES;
+    let drawMode = this.drawMode === Mesh.DRAW_MODES.TRIANGLE_MESH ? gl.TRIANGLE_STRIP : gl.TRIANGLES;
 
     glData.vao.bind()
     .draw(drawMode, this.indices.length)
@@ -241,10 +241,10 @@ Mesh.prototype._renderWebGL = function (renderer)
  */
 Mesh.prototype._renderCanvas = function (renderer)
 {
-    var context = renderer.context;
+    let context = renderer.context;
 
-    var transform = this.worldTransform;
-    var res = renderer.resolution;
+    let transform = this.worldTransform;
+    let res = renderer.resolution;
 
     if (renderer.roundPixels)
     {
@@ -274,16 +274,16 @@ Mesh.prototype._renderCanvas = function (renderer)
 Mesh.prototype._renderCanvasTriangleMesh = function (context)
 {
     // draw triangles!!
-    var vertices = this.vertices;
-    var uvs = this.uvs;
+    let vertices = this.vertices;
+    let uvs = this.uvs;
 
-    var length = vertices.length / 2;
+    let length = vertices.length / 2;
     // this.count++;
 
-    for (var i = 0; i < length - 2; i++)
+    for (let i = 0; i < length - 2; i++)
     {
         // draw some triangles!
-        var index = i * 2;
+        let index = i * 2;
         this._renderCanvasDrawTriangle(context, vertices, uvs, index, (index + 2), (index + 4));
     }
 };
@@ -297,17 +297,17 @@ Mesh.prototype._renderCanvasTriangleMesh = function (context)
 Mesh.prototype._renderCanvasTriangles = function (context)
 {
     // draw triangles!!
-    var vertices = this.vertices;
-    var uvs = this.uvs;
-    var indices = this.indices;
+    let vertices = this.vertices;
+    let uvs = this.uvs;
+    let indices = this.indices;
 
-    var length = indices.length;
+    let length = indices.length;
     // this.count++;
 
-    for (var i = 0; i < length; i += 3)
+    for (let i = 0; i < length; i += 3)
     {
         // draw some triangles!
-        var index0 = indices[i] * 2, index1 = indices[i + 1] * 2, index2 = indices[i + 2] * 2;
+        let index0 = indices[i] * 2, index1 = indices[i + 1] * 2, index2 = indices[i + 2] * 2;
         this._renderCanvasDrawTriangle(context, vertices, uvs, index0, index1, index2);
     }
 };
@@ -325,28 +325,28 @@ Mesh.prototype._renderCanvasTriangles = function (context)
  */
 Mesh.prototype._renderCanvasDrawTriangle = function (context, vertices, uvs, index0, index1, index2)
 {
-    var base = this._texture.baseTexture;
-    var textureSource = base.source;
-    var textureWidth = base.width;
-    var textureHeight = base.height;
+    let base = this._texture.baseTexture;
+    let textureSource = base.source;
+    let textureWidth = base.width;
+    let textureHeight = base.height;
 
-    var x0 = vertices[index0], x1 = vertices[index1], x2 = vertices[index2];
-    var y0 = vertices[index0 + 1], y1 = vertices[index1 + 1], y2 = vertices[index2 + 1];
+    let x0 = vertices[index0], x1 = vertices[index1], x2 = vertices[index2];
+    let y0 = vertices[index0 + 1], y1 = vertices[index1 + 1], y2 = vertices[index2 + 1];
 
-    var u0 = uvs[index0] * base.width, u1 = uvs[index1] * base.width, u2 = uvs[index2] * base.width;
-    var v0 = uvs[index0 + 1] * base.height, v1 = uvs[index1 + 1] * base.height, v2 = uvs[index2 + 1] * base.height;
+    let u0 = uvs[index0] * base.width, u1 = uvs[index1] * base.width, u2 = uvs[index2] * base.width;
+    let v0 = uvs[index0 + 1] * base.height, v1 = uvs[index1 + 1] * base.height, v2 = uvs[index2 + 1] * base.height;
 
     if (this.canvasPadding > 0)
     {
-        var paddingX = this.canvasPadding / this.worldTransform.a;
-        var paddingY = this.canvasPadding / this.worldTransform.d;
-        var centerX = (x0 + x1 + x2) / 3;
-        var centerY = (y0 + y1 + y2) / 3;
+        let paddingX = this.canvasPadding / this.worldTransform.a;
+        let paddingY = this.canvasPadding / this.worldTransform.d;
+        let centerX = (x0 + x1 + x2) / 3;
+        let centerY = (y0 + y1 + y2) / 3;
 
-        var normX = x0 - centerX;
-        var normY = y0 - centerY;
+        let normX = x0 - centerX;
+        let normY = y0 - centerY;
 
-        var dist = Math.sqrt(normX * normX + normY * normY);
+        let dist = Math.sqrt(normX * normX + normY * normY);
         x0 = centerX + (normX / dist) * (dist + paddingX);
         y0 = centerY + (normY / dist) * (dist + paddingY);
 
@@ -380,13 +380,13 @@ Mesh.prototype._renderCanvasDrawTriangle = function (context, vertices, uvs, ind
     context.clip();
 
     // Compute matrix transform
-    var delta =  (u0 * v1)      + (v0 * u2)      + (u1 * v2)      - (v1 * u2)      - (v0 * u1)      - (u0 * v2);
-    var deltaA = (x0 * v1)      + (v0 * x2)      + (x1 * v2)      - (v1 * x2)      - (v0 * x1)      - (x0 * v2);
-    var deltaB = (u0 * x1)      + (x0 * u2)      + (u1 * x2)      - (x1 * u2)      - (x0 * u1)      - (u0 * x2);
-    var deltaC = (u0 * v1 * x2) + (v0 * x1 * u2) + (x0 * u1 * v2) - (x0 * v1 * u2) - (v0 * u1 * x2) - (u0 * x1 * v2);
-    var deltaD = (y0 * v1)      + (v0 * y2)      + (y1 * v2)      - (v1 * y2)      - (v0 * y1)      - (y0 * v2);
-    var deltaE = (u0 * y1)      + (y0 * u2)      + (u1 * y2)      - (y1 * u2)      - (y0 * u1)      - (u0 * y2);
-    var deltaF = (u0 * v1 * y2) + (v0 * y1 * u2) + (y0 * u1 * v2) - (y0 * v1 * u2) - (v0 * u1 * y2) - (u0 * y1 * v2);
+    let delta =  (u0 * v1)      + (v0 * u2)      + (u1 * v2)      - (v1 * u2)      - (v0 * u1)      - (u0 * v2);
+    let deltaA = (x0 * v1)      + (v0 * x2)      + (x1 * v2)      - (v1 * x2)      - (v0 * x1)      - (x0 * v2);
+    let deltaB = (u0 * x1)      + (x0 * u2)      + (u1 * x2)      - (x1 * u2)      - (x0 * u1)      - (u0 * x2);
+    let deltaC = (u0 * v1 * x2) + (v0 * x1 * u2) + (x0 * u1 * v2) - (x0 * v1 * u2) - (v0 * u1 * x2) - (u0 * x1 * v2);
+    let deltaD = (y0 * v1)      + (v0 * y2)      + (y1 * v2)      - (v1 * y2)      - (v0 * y1)      - (y0 * v2);
+    let deltaE = (u0 * y1)      + (y0 * u2)      + (u1 * y2)      - (y1 * u2)      - (y0 * u1)      - (u0 * y2);
+    let deltaF = (u0 * v1 * y2) + (v0 * y1 * u2) + (y0 * u1 * v2) - (y0 * v1 * u2) - (v0 * u1 * y2) - (u0 * y1 * v2);
 
     context.transform(deltaA / delta, deltaD / delta,
         deltaB / delta, deltaE / delta,
@@ -406,20 +406,20 @@ Mesh.prototype._renderCanvasDrawTriangle = function (context, vertices, uvs, ind
  */
 Mesh.prototype.renderMeshFlat = function (Mesh)
 {
-    var context = this.context;
-    var vertices = Mesh.vertices;
+    let context = this.context;
+    let vertices = Mesh.vertices;
 
-    var length = vertices.length/2;
+    let length = vertices.length/2;
     // this.count++;
 
     context.beginPath();
-    for (var i=1; i < length-2; i++)
+    for (let i=1; i < length-2; i++)
     {
         // draw some triangles!
-        var index = i*2;
+        let index = i*2;
 
-        var x0 = vertices[index],   x1 = vertices[index+2], x2 = vertices[index+4];
-        var y0 = vertices[index+1], y1 = vertices[index+3], y2 = vertices[index+5];
+        let x0 = vertices[index],   x1 = vertices[index+2], x2 = vertices[index+4];
+        let y0 = vertices[index+1], y1 = vertices[index+3], y2 = vertices[index+5];
 
         context.moveTo(x0, y0);
         context.lineTo(x1, y1);
@@ -465,14 +465,14 @@ Mesh.prototype.containsPoint = function( point ) {
     }
     this.worldTransform.applyInverse(point,  tempPoint);
 
-    var vertices = this.vertices;
-    var points = tempPolygon.points;
+    let vertices = this.vertices;
+    let points = tempPolygon.points;
 
-    var indices = this.indices;
-    var len = this.indices.length;
-    var step = this.drawMode === Mesh.DRAW_MODES.TRIANGLES ? 3 : 1;
-    for (var i=0;i+2<len;i+=step) {
-        var ind0 = indices[i]*2, ind1 = indices[i+1]*2, ind2 = indices[i+2]*2;
+    let indices = this.indices;
+    let len = this.indices.length;
+    let step = this.drawMode === Mesh.DRAW_MODES.TRIANGLES ? 3 : 1;
+    for (let i=0;i+2<len;i+=step) {
+        let ind0 = indices[i]*2, ind1 = indices[i+1]*2, ind2 = indices[i+2]*2;
         points[0] = vertices[ind0];
         points[1] = vertices[ind0+1];
         points[2] = vertices[ind1];

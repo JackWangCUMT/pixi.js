@@ -1,4 +1,4 @@
-var utils = require('../utils'),
+let utils = require('../utils'),
     CONST = require('../const'),
     EventEmitter = require('eventemitter3'),
     determineCrossOrigin = require('../utils/determineCrossOrigin'),
@@ -225,7 +225,7 @@ BaseTexture.prototype.update = function ()
  */
 BaseTexture.prototype.loadSource = function (source)
 {
-    var wasLoading = this.isLoading;
+    let wasLoading = this.isLoading;
     this.hasLoaded = false;
     this.isLoading = false;
 
@@ -248,7 +248,7 @@ BaseTexture.prototype.loadSource = function (source)
         // Image fail / not ready
         this.isLoading = true;
 
-        var scope = this;
+        let scope = this;
 
         source.onload = function ()
         {
@@ -393,13 +393,13 @@ BaseTexture.prototype.updateSourceImage = function (newSrc)
  */
 BaseTexture.fromImage = function (imageUrl, crossorigin, scaleMode)
 {
-    var baseTexture = utils.BaseTextureCache[imageUrl];
+    let baseTexture = utils.BaseTextureCache[imageUrl];
 
     if (!baseTexture)
     {
         // new Image() breaks tex loading in some versions of Chrome.
         // See https://code.google.com/p/chromium/issues/detail?id=238071
-        var image = new Image();//document.createElement('img');
+        let image = new Image();//document.createElement('img');
 
 
         if (crossorigin === undefined && imageUrl.indexOf('data:') !== 0)
@@ -436,7 +436,7 @@ BaseTexture.fromCanvas = function (canvas, scaleMode)
         canvas._pixiId = 'canvas_' + utils.uid();
     }
 
-    var baseTexture = utils.BaseTextureCache[canvas._pixiId];
+    let baseTexture = utils.BaseTextureCache[canvas._pixiId];
 
     if (!baseTexture)
     {

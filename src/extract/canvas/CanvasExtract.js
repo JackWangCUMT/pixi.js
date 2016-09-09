@@ -1,4 +1,4 @@
-var core = require('../../core'),
+let core = require('../../core'),
     tempRect = new core.Rectangle();
 
 /**
@@ -25,7 +25,7 @@ module.exports = CanvasExtract;
  */
 CanvasExtract.prototype.image = function ( target )
 {
-	var image = new Image();
+    let image = new Image();
     image.src = this.base64( target );
     return image;
 };
@@ -47,11 +47,11 @@ CanvasExtract.prototype.base64 = function ( target )
  */
 CanvasExtract.prototype.canvas = function ( target )
 {
-	var renderer = this.renderer;
-	var context;
-	var resolution;
-    var frame;
-    var renderTexture;
+    let renderer = this.renderer;
+    let context;
+    let resolution;
+    let frame;
+    let renderTexture;
 
     if(target)
     {
@@ -65,7 +65,7 @@ CanvasExtract.prototype.canvas = function ( target )
         }
     }
 
-	if(renderTexture)
+    if(renderTexture)
     {
         context = renderTexture.baseTexture._canvasRenderTarget.context;
         resolution = renderTexture.baseTexture._canvasRenderTarget.resolution;
@@ -81,11 +81,11 @@ CanvasExtract.prototype.canvas = function ( target )
         frame.height = this.renderer.height;
     }
 
-    var width = frame.width * resolution;
-    var height = frame.height * resolution;
+    let width = frame.width * resolution;
+    let height = frame.height * resolution;
 
-   	var canvasBuffer = new core.CanvasRenderTarget(width, height);
-    var canvasData = context.getImageData(frame.x * resolution, frame.y * resolution, width, height);
+       let canvasBuffer = new core.CanvasRenderTarget(width, height);
+    let canvasData = context.getImageData(frame.x * resolution, frame.y * resolution, width, height);
     canvasBuffer.context.putImageData(canvasData, 0, 0);
 
 
@@ -100,11 +100,11 @@ CanvasExtract.prototype.canvas = function ( target )
  */
 CanvasExtract.prototype.pixels = function ( target )
 {
-    var renderer = this.renderer;
-    var context;
-    var resolution;
-    var frame;
-    var renderTexture;
+    let renderer = this.renderer;
+    let context;
+    let resolution;
+    let frame;
+    let renderTexture;
 
     if(target)
     {

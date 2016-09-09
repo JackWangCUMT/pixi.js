@@ -1,10 +1,10 @@
-var GLShader = require('pixi-gl-core').GLShader;
-var Const = require('./const');
+let GLShader = require('pixi-gl-core').GLShader;
+let Const = require('./const');
 
 function checkPrecision(src) {
     if (src instanceof Array) {
         if (src[0].substring(0,9) !== 'precision') {
-            var copy = src.slice(0);
+            let copy = src.slice(0);
             copy.unshift('precision ' + Const.PRECISION.DEFAULT + ' float;');
             return copy;
         }
@@ -26,7 +26,7 @@ function checkPrecision(src) {
  * @param vertexSrc {string|string[]} The vertex shader source as an array of strings.
  * @param fragmentSrc {string|string[]} The fragment shader source as an array of strings.
  */
-var Shader = function(gl, vertexSrc, fragmentSrc) {
+let Shader = function(gl, vertexSrc, fragmentSrc) {
     GLShader.call(this, gl, checkPrecision(vertexSrc), checkPrecision(fragmentSrc));
 };
 

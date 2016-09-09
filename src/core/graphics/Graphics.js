@@ -1,4 +1,4 @@
-var Container = require('../display/Container'),
+let Container = require('../display/Container'),
     RenderTexture = require('../textures/RenderTexture'),
     Texture = require('../textures/Texture'),
     GraphicsData = require('./GraphicsData'),
@@ -192,7 +192,7 @@ module.exports = Graphics;
  */
 Graphics.prototype.clone = function ()
 {
-    var clone = new Graphics();
+    let clone = new Graphics();
 
     clone.renderable    = this.renderable;
     clone.fillAlpha     = this.fillAlpha;
@@ -206,7 +206,7 @@ Graphics.prototype.clone = function ()
     clone.cachedSpriteDirty = this.cachedSpriteDirty;
 
     // copy graphics data
-    for (var i = 0; i < this.graphicsData.length; ++i)
+    for (let i = 0; i < this.graphicsData.length; ++i)
     {
         clone.graphicsData.push(this.graphicsData[i].clone());
     }
@@ -237,7 +237,7 @@ Graphics.prototype.lineStyle = function (lineWidth, color, alpha)
         if (this.currentPath.shape.points.length)
         {
             // halfway through a line? start a new one!
-            var shape = new math.Polygon(this.currentPath.shape.points.slice(-2));
+            let shape = new math.Polygon(this.currentPath.shape.points.slice(-2));
             shape.closed = false;
             this.drawShape(shape);
         }
@@ -262,7 +262,7 @@ Graphics.prototype.lineStyle = function (lineWidth, color, alpha)
  */
 Graphics.prototype.moveTo = function (x, y)
 {
-    var shape = new math.Polygon([x,y]);
+    let shape = new math.Polygon([x,y]);
     shape.closed = false;
     this.drawShape(shape);
 
@@ -310,7 +310,7 @@ Graphics.prototype.quadraticCurveTo = function (cpX, cpY, toX, toY)
     }
 
 
-    var xa,
+    let xa,
         ya,
         n = 20,
         points = this.currentPath.shape.points;
@@ -320,11 +320,11 @@ Graphics.prototype.quadraticCurveTo = function (cpX, cpY, toX, toY)
         this.moveTo(0, 0);
     }
 
-    var fromX = points[points.length-2];
-    var fromY = points[points.length-1];
+    let fromX = points[points.length-2];
+    let fromY = points[points.length-1];
 
-    var j = 0;
-    for (var i = 1; i <= n; ++i)
+    let j = 0;
+    for (let i = 1; i <= n; ++i)
     {
         j = i / n;
 
@@ -365,10 +365,10 @@ Graphics.prototype.bezierCurveTo = function (cpX, cpY, cpX2, cpY2, toX, toY)
         this.moveTo(0,0);
     }
 
-    var points = this.currentPath.shape.points;
+    let points = this.currentPath.shape.points;
 
-    var fromX = points[points.length-2];
-    var fromY = points[points.length-1];
+    let fromX = points[points.length-2];
+    let fromY = points[points.length-1];
 
     points.length -= 2;
 
@@ -405,7 +405,7 @@ Graphics.prototype.arcTo = function (x1, y1, x2, y2, radius)
         this.moveTo(x1, y1);
     }
 
-    var points = this.currentPath.shape.points,
+    let points = this.currentPath.shape.points,
         fromX = points[points.length-2],
         fromY = points[points.length-1],
         a1 = fromY - y1,
@@ -423,7 +423,7 @@ Graphics.prototype.arcTo = function (x1, y1, x2, y2, radius)
     }
     else
     {
-        var dd = a1 * a1 + b1 * b1,
+        let dd = a1 * a1 + b1 * b1,
             cc = a2 * a2 + b2 * b2,
             tt = a1 * a2 + b1 * b2,
             k1 = radius * Math.sqrt(dd) / mm,
@@ -476,16 +476,16 @@ Graphics.prototype.arc = function(cx, cy, radius, startAngle, endAngle, anticloc
         startAngle += Math.PI * 2;
     }
 
-    var sweep = anticlockwise ? (startAngle - endAngle) * -1 : (endAngle - startAngle);
-    var segs =  Math.ceil(Math.abs(sweep) / (Math.PI * 2)) * 40;
+    let sweep = anticlockwise ? (startAngle - endAngle) * -1 : (endAngle - startAngle);
+    let segs =  Math.ceil(Math.abs(sweep) / (Math.PI * 2)) * 40;
 
     if(sweep === 0)
     {
         return this;
     }
 
-    var startX = cx + Math.cos(startAngle) * radius;
-    var startY = cy + Math.sin(startAngle) * radius;
+    let startX = cx + Math.cos(startAngle) * radius;
+    let startY = cy + Math.sin(startAngle) * radius;
 
     if (this.currentPath)
     {
@@ -496,27 +496,27 @@ Graphics.prototype.arc = function(cx, cy, radius, startAngle, endAngle, anticloc
         this.moveTo(startX, startY);
     }
 
-    var points = this.currentPath.shape.points;
+    let points = this.currentPath.shape.points;
 
-    var theta = sweep/(segs*2);
-    var theta2 = theta*2;
+    let theta = sweep/(segs*2);
+    let theta2 = theta*2;
 
-    var cTheta = Math.cos(theta);
-    var sTheta = Math.sin(theta);
+    let cTheta = Math.cos(theta);
+    let sTheta = Math.sin(theta);
 
-    var segMinus = segs - 1;
+    let segMinus = segs - 1;
 
-    var remainder = ( segMinus % 1 ) / segMinus;
+    let remainder = ( segMinus % 1 ) / segMinus;
 
-    for(var i=0; i<=segMinus; i++)
+    for(let i=0; i<=segMinus; i++)
     {
-        var real =  i + remainder * i;
+        let real =  i + remainder * i;
 
 
-        var angle = ((theta) + startAngle + (theta2 * real));
+        let angle = ((theta) + startAngle + (theta2 * real));
 
-        var c = Math.cos(angle);
-        var s = -Math.sin(angle);
+        let c = Math.cos(angle);
+        let s = -Math.sin(angle);
 
         points.push(( (cTheta *  c) + (sTheta * s) ) * radius + cx,
                     ( (cTheta * -s) + (sTheta * c) ) * radius + cy);
@@ -639,9 +639,9 @@ Graphics.prototype.drawPolygon = function (path)
 {
     // prevents an argument assignment deopt
     // see section 3.1: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
-    var points = path;
+    let points = path;
 
-    var closed = true;
+    let closed = true;
 
     if (points instanceof math.Polygon)
     {
@@ -655,13 +655,13 @@ Graphics.prototype.drawPolygon = function (path)
         // see section 3.2: https://github.com/petkaantonov/bluebird/wiki/Optimization-killers#3-managing-arguments
         points = new Array(arguments.length);
 
-        for (var i = 0; i < points.length; ++i)
+        for (let i = 0; i < points.length; ++i)
         {
             points[i] = arguments[i];
         }
     }
 
-    var shape = new math.Polygon(points);
+    let shape = new math.Polygon(points);
     shape.closed = closed;
 
     this.drawShape(shape);
@@ -724,14 +724,14 @@ Graphics.prototype._renderWebGL = function (renderer)
 
 Graphics.prototype._renderSpriteRect = function (renderer)
 {
-    var rect = this.graphicsData[0].shape;
+    let rect = this.graphicsData[0].shape;
     if(!this._spriteRect)
     {
         if(!Graphics._SPRITE_TEXTURE)
         {
             Graphics._SPRITE_TEXTURE = RenderTexture.create(10, 10);
 
-            var currentRenderTarget = renderer._activeRenderTarget;
+            let currentRenderTarget = renderer._activeRenderTarget;
             renderer.bindRenderTexture(Graphics._SPRITE_TEXTURE);
             renderer.clear([1,1,1,1]);
             renderer.bindRenderTarget(currentRenderTarget);
@@ -742,8 +742,8 @@ Graphics.prototype._renderSpriteRect = function (renderer)
     if (this.tint === 0xffffff) {
         this._spriteRect.tint = this.graphicsData[0].fillColor;
     } else {
-        var t1 = tempColor1;
-        var t2 = tempColor2;
+        let t1 = tempColor1;
+        let t2 = tempColor2;
         utils.hex2rgb(this.graphicsData[0].fillColor, t1);
         utils.hex2rgb(this.tint, t2);
         t1[0] *= t2[0];
@@ -804,7 +804,7 @@ Graphics.prototype._calculateBounds = function ()
         this.cachedSpriteDirty = true;
     }
 
-    var lb = this._localBounds;
+    let lb = this._localBounds;
     this._bounds.addFrame(this.transform, lb.minX, lb.minY, lb.maxX, lb.maxY);
 };
 
@@ -818,11 +818,11 @@ Graphics.prototype.containsPoint = function( point )
 {
     this.worldTransform.applyInverse(point,  tempPoint);
 
-    var graphicsData = this.graphicsData;
+    let graphicsData = this.graphicsData;
 
-    for (var i = 0; i < graphicsData.length; i++)
+    for (let i = 0; i < graphicsData.length; i++)
     {
-        var data = graphicsData[i];
+        let data = graphicsData[i];
 
         if (!data.fill)
         {
@@ -848,21 +848,21 @@ Graphics.prototype.containsPoint = function( point )
  */
 Graphics.prototype.updateLocalBounds = function ()
 {
-    var minX = Infinity;
-    var maxX = -Infinity;
+    let minX = Infinity;
+    let maxX = -Infinity;
 
-    var minY = Infinity;
-    var maxY = -Infinity;
+    let minY = Infinity;
+    let maxY = -Infinity;
 
     if (this.graphicsData.length)
     {
-        var shape, points, x, y, w, h;
+        let shape, points, x, y, w, h;
 
-        for (var i = 0; i < this.graphicsData.length; i++)
+        for (let i = 0; i < this.graphicsData.length; i++)
         {
-            var data = this.graphicsData[i];
-            var type = data.type;
-            var lineWidth = data.lineWidth;
+            let data = this.graphicsData[i];
+            let type = data.type;
+            let lineWidth = data.lineWidth;
             shape = data.shape;
 
             if (type === CONST.SHAPES.RECT || type === CONST.SHAPES.RREC)
@@ -909,7 +909,7 @@ Graphics.prototype.updateLocalBounds = function ()
                 // POLY
                 points = shape.points;
 
-                for (var j = 0; j < points.length; j += 2)
+                for (let j = 0; j < points.length; j += 2)
                 {
                     x = points[j];
                     y = points[j+1];
@@ -931,7 +931,7 @@ Graphics.prototype.updateLocalBounds = function ()
         maxY = 0;
     }
 
-    var padding = this.boundsPadding;
+    let padding = this.boundsPadding;
 
     this._localBounds.minX = minX - padding;
     this._localBounds.maxX = maxX + padding * 2;
@@ -960,7 +960,7 @@ Graphics.prototype.drawShape = function (shape)
 
     this.currentPath = null;
 
-    var data = new GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
+    let data = new GraphicsData(this.lineWidth, this.lineColor, this.lineAlpha, this.fillColor, this.fillAlpha, this.filling, shape);
 
     this.graphicsData.push(data);
 
@@ -979,9 +979,9 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 {
     resolution = resolution || 1;
 
-    var bounds = this.getLocalBounds();
+    let bounds = this.getLocalBounds();
 
-    var canvasBuffer = new RenderTexture.create(bounds.width * resolution, bounds.height * resolution);
+    let canvasBuffer = new RenderTexture.create(bounds.width * resolution, bounds.height * resolution);
 
     if(!canvasRenderer)
     {
@@ -993,7 +993,7 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 
     canvasRenderer.render(this, canvasBuffer, false, tempMatrix);
 
-    var texture = Texture.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
+    let texture = Texture.fromCanvas(canvasBuffer.baseTexture._canvasRenderTarget.canvas, scaleMode);
     texture.baseTexture.resolution = resolution;
 
     return texture;
@@ -1002,7 +1002,7 @@ Graphics.prototype.generateCanvasTexture = function(scaleMode, resolution)
 Graphics.prototype.closePath = function ()
 {
     // ok so close path assumes next one is a hole!
-    var currentPath = this.currentPath;
+    let currentPath = this.currentPath;
     if (currentPath && currentPath.shape)
     {
         currentPath.shape.close();
@@ -1013,7 +1013,7 @@ Graphics.prototype.closePath = function ()
 Graphics.prototype.addHole = function()
 {
     // this is a hole!
-    var hole = this.graphicsData.pop();
+    let hole = this.graphicsData.pop();
 
     this.currentPath = this.graphicsData[this.graphicsData.length-1];
 
@@ -1031,13 +1031,13 @@ Graphics.prototype.destroy = function ()
     Container.prototype.destroy.apply(this, arguments);
 
     // destroy each of the GraphicsData objects
-    for (var i = 0; i < this.graphicsData.length; ++i) {
+    for (let i = 0; i < this.graphicsData.length; ++i) {
         this.graphicsData[i].destroy();
     }
 
     // for each webgl data entry, destroy the WebGLGraphicsData
-    for (var id in this._webgl) {
-        for (var j = 0; j < this._webgl[id].data.length; ++j) {
+    for (let id in this._webgl) {
+        for (let j = 0; j < this._webgl[id].data.length; ++j) {
             this._webgl[id].data[j].destroy();
         }
     }

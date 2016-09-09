@@ -1,14 +1,14 @@
-var Mesh = require('./Mesh');
-var core = require('../core');
+let Mesh = require('./Mesh');
+let core = require('../core');
 
 /**
  * The rope allows you to draw a texture across several points and them manipulate these points
  *
  *```js
- * for (var i = 0; i < 20; i++) {
+ * for (let i = 0; i < 20; i++) {
  *     points.push(new PIXI.Point(i * 50, 0));
  * };
- * var rope = new PIXI.Rope(PIXI.Texture.fromImage("snake.png"), points);
+ * let rope = new PIXI.Rope(PIXI.Texture.fromImage("snake.png"), points);
  *  ```
  *
  * @class
@@ -71,7 +71,7 @@ module.exports = Rope;
  */
 Rope.prototype.refresh = function ()
 {
-    var points = this.points;
+    let points = this.points;
 
     // if too little points, or texture hasn't got UVs set yet just move on.
     if (points.length < 1 || !this._texture._uvs)
@@ -79,14 +79,14 @@ Rope.prototype.refresh = function ()
         return;
     }
 
-    var uvs = this.uvs;
+    let uvs = this.uvs;
 
-    var indices = this.indices;
-    var colors = this.colors;
+    let indices = this.indices;
+    let colors = this.colors;
 
-    var textureUvs = this._texture._uvs;
-    var offset = new core.Point(textureUvs.x0, textureUvs.y0);
-    var factor = new core.Point(textureUvs.x2 - textureUvs.x0, textureUvs.y2 - textureUvs.y0);
+    let textureUvs = this._texture._uvs;
+    let offset = new core.Point(textureUvs.x0, textureUvs.y0);
+    let factor = new core.Point(textureUvs.x2 - textureUvs.x0, textureUvs.y2 - textureUvs.y0);
 
     uvs[0] = 0 + offset.x;
     uvs[1] = 0 + offset.y;
@@ -99,12 +99,11 @@ Rope.prototype.refresh = function ()
     indices[0] = 0;
     indices[1] = 1;
 
-    var total = points.length,
-        point, index, amount;
+    let total = points.length,
+        index, amount;
 
-    for (var i = 1; i < total; i++)
+    for (let i = 1; i < total; i++)
     {
-        point = points[i];
         index = i * 4;
         // time to do some smart drawing!
         amount = i / (total-1);
@@ -151,25 +150,25 @@ Rope.prototype._onTextureUpdate = function ()
  */
 Rope.prototype.updateTransform = function ()
 {
-    var points = this.points;
+    let points = this.points;
 
     if (points.length < 1)
     {
         return;
     }
 
-    var lastPoint = points[0];
-    var nextPoint;
-    var perpX = 0;
-    var perpY = 0;
+    let lastPoint = points[0];
+    let nextPoint;
+    let perpX = 0;
+    let perpY = 0;
 
     // this.count -= 0.2;
 
-    var vertices = this.vertices;
-    var total = points.length,
+    let vertices = this.vertices;
+    let total = points.length,
         point, index, ratio, perpLength, num;
 
-    for (var i = 0; i < total; i++)
+    for (let i = 0; i < total; i++)
     {
         point = points[i];
         index = i * 4;

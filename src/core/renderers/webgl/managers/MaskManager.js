@@ -1,4 +1,4 @@
-var WebGLManager = require('./WebGLManager'),
+let WebGLManager = require('./WebGLManager'),
     AlphaMaskFilter = require('../filters/spriteMask/SpriteMaskFilter');
 
 /**
@@ -41,9 +41,9 @@ MaskManager.prototype.pushMask = function (target, maskData)
     {
         if(this.enableScissor && !this.scissor && !this.renderer.stencilManager.stencilMaskStack.length && maskData.isFastRect())
         {
-            var matrix = maskData.worldTransform;
+            let matrix = maskData.worldTransform;
 
-            var rot = Math.atan2(matrix.b, matrix.a);
+            let rot = Math.atan2(matrix.b, matrix.a);
 
             // use the nearest degree!
             rot = Math.round(rot * (180/Math.PI));
@@ -98,7 +98,7 @@ MaskManager.prototype.popMask = function (target, maskData)
  */
 MaskManager.prototype.pushSpriteMask = function (target, maskData)
 {
-    var alphaMaskFilter = this.alphaMaskPool[this.alphaMaskIndex];
+    let alphaMaskFilter = this.alphaMaskPool[this.alphaMaskIndex];
 
     if (!alphaMaskFilter)
     {
@@ -157,16 +157,16 @@ MaskManager.prototype.pushScissorMask = function (target, maskData)
 {
     maskData.renderable = true;
 
-    var renderTarget = this.renderer._activeRenderTarget;
+    let renderTarget = this.renderer._activeRenderTarget;
 
-    var bounds = maskData.getBounds();
+    let bounds = maskData.getBounds();
 
     bounds.fit(renderTarget.size);
     maskData.renderable = false;
 
     this.renderer.gl.enable(this.renderer.gl.SCISSOR_TEST);
 
-    var resolution = this.renderer.resolution;
+    let resolution = this.renderer.resolution;
     this.renderer.gl.scissor(bounds.x * resolution,
         (renderTarget.root ? renderTarget.size.height - bounds.y - bounds.height : bounds.y) * resolution,
                            bounds.width * resolution,
@@ -188,6 +188,6 @@ MaskManager.prototype.popScissorMask = function ()
     this.scissor = false;
 
     // must be scissor!
-    var gl = this.renderer.gl;
+    let gl = this.renderer.gl;
     gl.disable(gl.SCISSOR_TEST);
 };

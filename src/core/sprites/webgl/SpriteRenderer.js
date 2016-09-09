@@ -1,4 +1,4 @@
-var ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
+let ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
     WebGLRenderer = require('../../renderers/webgl/WebGLRenderer'),
     createIndicesForQuads = require('../../utils/createIndicesForQuads'),
     generateMultiTextureShader = require('./generateMultiTextureShader'),
@@ -8,7 +8,7 @@ var ObjectRenderer = require('../../renderers/webgl/utils/ObjectRenderer'),
     glCore = require('pixi-gl-core'),
     bitTwiddle = require('bit-twiddle');
 
-    var TICK = 0;
+    let TICK = 0;
 /**
  * Renderer dedicated to drawing and batching sprites.
  *
@@ -45,11 +45,11 @@ function SpriteRenderer(renderer)
     this.size = CONST.SPRITE_BATCH_SIZE; // 2000 is a nice balance between mobile / desktop
 
     // the total number of bytes in our batch
-    // var numVerts = this.size * 4 * this.vertByteSize;
+    // let numVerts = this.size * 4 * this.vertByteSize;
 
     this.buffers = [];
-    for (var i = 1; i <= bitTwiddle.nextPow2(this.size); i*=2) {
-        var numVertsTemp = i * 4 * this.vertByteSize;
+    for (let i = 1; i <= bitTwiddle.nextPow2(this.size); i*=2) {
+        let numVertsTemp = i * 4 * this.vertByteSize;
         this.buffers.push(new Buffer(numVertsTemp));
     }
 
@@ -72,7 +72,7 @@ function SpriteRenderer(renderer)
     TICK =0;
     this.groups = [];
 
-    for (var k = 0; k < this.size; k++)
+    for (let k = 0; k < this.size; k++)
     {
         this.groups[k] = {textures:[], textureCount:0, ids:[], size:0, start:0, blend:0};
     }
@@ -102,7 +102,7 @@ WebGLRenderer.registerPlugin('sprite', SpriteRenderer);
  */
 SpriteRenderer.prototype.onContextChange = function ()
 {
-    var gl = this.renderer.gl;
+    let gl = this.renderer.gl;
 
     // step 1: first check max textures the GPU can handle.
     this.MAX_TEXTURES = Math.min(gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS), CONST.SPRITE_MAX_TEXTURES);
@@ -119,9 +119,9 @@ SpriteRenderer.prototype.onContextChange = function ()
 
     // we use the second shader as the first one depending on your browser may omit aTextureId
     // as it is not used by the shader so is optimized out.
-    var shader = this.shaders[1];
+    let shader = this.shaders[1];
 
-    for (var i = 0; i < this.vaoMax; i++) {
+    for (let i = 0; i < this.vaoMax; i++) {
         this.vertexBuffers[i] = glCore.GLBuffer.createVertexBuffer(gl, null, gl.STREAM_DRAW);
 
         // build the vao object that will render..
@@ -181,30 +181,30 @@ SpriteRenderer.prototype.flush = function ()
       return;
     }
 
-    var gl = this.renderer.gl;
+    let gl = this.renderer.gl;
 
-    var np2 = bitTwiddle.nextPow2(this.currentIndex);
-    var log2 = bitTwiddle.log2(np2);
-    var buffer = this.buffers[log2];
+    let np2 = bitTwiddle.nextPow2(this.currentIndex);
+    let log2 = bitTwiddle.log2(np2);
+    let buffer = this.buffers[log2];
 
-    var sprites = this.sprites;
-    var groups = this.groups;
+    let sprites = this.sprites;
+    let groups = this.groups;
 
-    var float32View = buffer.float32View;
-    var uint32View = buffer.uint32View;
+    let float32View = buffer.float32View;
+    let uint32View = buffer.uint32View;
 
-    var index = 0;
-    var nextTexture;
-    var currentTexture;
-    var groupCount = 1;
-    var textureCount = 0;
-    var currentGroup = groups[0];
-    var vertexData;
-    var tint;
-    var uvs;
-    var textureId;
-    var blendMode = sprites[0].blendMode;
-    var shader;
+    let index = 0;
+    let nextTexture;
+    let currentTexture;
+    let groupCount = 1;
+    let textureCount = 0;
+    let currentGroup = groups[0];
+    let vertexData;
+    let tint;
+    let uvs;
+    let textureId;
+    let blendMode = sprites[0].blendMode;
+    let shader;
 
     currentGroup.textureCount = 0;
     currentGroup.start = 0;
@@ -212,11 +212,13 @@ SpriteRenderer.prototype.flush = function ()
 
     TICK++;
 
-    for (var i = 0; i < this.currentIndex; i++)
+    let i;
+
+    for (i = 0; i < this.currentIndex; i++)
     {
         // upload the sprite elemetns...
         // they have all ready been calculated so we just need to push them into the buffer.
-        var sprite = sprites[i];
+        let sprite = sprites[i];
 
         nextTexture = sprite._texture.baseTexture;
 
@@ -268,7 +270,7 @@ SpriteRenderer.prototype.flush = function ()
 
         if (this.renderer.roundPixels)
         {
-            var resolution = this.renderer.resolution;
+            let resolution = this.renderer.resolution;
 
             //xy
             float32View[index] = ((vertexData[0] * resolution) | 0) / resolution;
@@ -341,8 +343,8 @@ SpriteRenderer.prototype.flush = function ()
     /// render the groups..
     for (i = 0; i < groupCount; i++) {
 
-        var group = groups[i];
-        var groupTextureCount = group.textureCount;
+        let group = groups[i];
+        let groupTextureCount = group.textureCount;
         shader = this.shaders[groupTextureCount-1];
 
         if(!shader)
@@ -353,7 +355,7 @@ SpriteRenderer.prototype.flush = function ()
 
         this.renderer.bindShader(shader);
 
-        for (var j = 0; j < groupTextureCount; j++)
+        for (let j = 0; j < groupTextureCount; j++)
         {
             this.renderer.bindTexture(group.textures[j], j);
         }
@@ -389,7 +391,7 @@ SpriteRenderer.prototype.stop = function ()
  */
 SpriteRenderer.prototype.destroy = function ()
 {
-    for (var i = 0; i < this.vaoMax; i++) {
+    for (let i = 0; i < this.vaoMax; i++) {
         this.vertexBuffers[i].destroy();
         this.vaos[i].destroy();
     }
@@ -399,7 +401,7 @@ SpriteRenderer.prototype.destroy = function ()
     this.renderer.off('prerender', this.onPrerender, this);
     ObjectRenderer.prototype.destroy.call(this);
 
-    for (i = 0; i < this.shaders.length; i++) {
+    for (let i = 0; i < this.shaders.length; i++) {
 
         if(this.shaders[i])
         {
@@ -414,7 +416,7 @@ SpriteRenderer.prototype.destroy = function ()
 
     this.sprites = null;
 
-    for (i = 0; i < this.buffers.length; i++) {
+    for (let i = 0; i < this.buffers.length; i++) {
         this.buffers[i].destroy();
     }
 

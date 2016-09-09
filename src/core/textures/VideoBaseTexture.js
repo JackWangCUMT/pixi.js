@@ -1,4 +1,4 @@
-var BaseTexture = require('./BaseTexture'),
+let BaseTexture = require('./BaseTexture'),
     utils = require('../utils');
 
 /**
@@ -9,13 +9,13 @@ var BaseTexture = require('./BaseTexture'),
  * This can be used in several ways, such as:
  *
  * ```js
- * var texture = PIXI.VideoBaseTexture.fromUrl('http://mydomain.com/video.mp4');
+ * let texture = PIXI.VideoBaseTexture.fromUrl('http://mydomain.com/video.mp4');
  *
- * var texture = PIXI.VideoBaseTexture.fromUrl({ src: 'http://mydomain.com/video.mp4', mime: 'video/mp4' });
+ * let texture = PIXI.VideoBaseTexture.fromUrl({ src: 'http://mydomain.com/video.mp4', mime: 'video/mp4' });
  *
- * var texture = PIXI.VideoBaseTexture.fromUrls(['/video.webm', '/video.mp4']);
+ * let texture = PIXI.VideoBaseTexture.fromUrls(['/video.webm', '/video.mp4']);
  *
- * var texture = PIXI.VideoBaseTexture.fromUrls([
+ * let texture = PIXI.VideoBaseTexture.fromUrls([
  *     { src: '/video.webm', mime: 'video/webm' },
  *     { src: '/video.mp4', mime: 'video/mp4' }
  * ]);
@@ -176,7 +176,7 @@ VideoBaseTexture.fromVideo = function (video, scaleMode)
         video._pixiId = 'video_' + utils.uid();
     }
 
-    var baseTexture = utils.BaseTextureCache[video._pixiId];
+    let baseTexture = utils.BaseTextureCache[video._pixiId];
 
     if (!baseTexture)
     {
@@ -201,12 +201,12 @@ VideoBaseTexture.fromVideo = function (video, scaleMode)
  */
 VideoBaseTexture.fromUrl = function (videoSrc, scaleMode)
 {
-    var video = document.createElement('video');
+    let video = document.createElement('video');
 
     // array of objects or strings
     if (Array.isArray(videoSrc))
     {
-        for (var i = 0; i < videoSrc.length; ++i)
+        for (let i = 0; i < videoSrc.length; ++i)
         {
             video.appendChild(createSource(videoSrc[i].src || videoSrc[i], videoSrc[i].mime));
         }
@@ -232,7 +232,7 @@ function createSource(path, type)
         type = 'video/' + path.substr(path.lastIndexOf('.') + 1);
     }
 
-    var source = document.createElement('source');
+    let source = document.createElement('source');
 
     source.src = path;
     source.type = type;

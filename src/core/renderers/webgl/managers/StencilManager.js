@@ -1,4 +1,4 @@
-var WebGLManager = require('./WebGLManager');
+let WebGLManager = require('./WebGLManager');
 
 /**
  * @class
@@ -24,7 +24,7 @@ StencilManager.prototype.setMaskStack = function ( stencilMaskStack )
 {
     this.stencilMaskStack = stencilMaskStack;
 
-    var gl = this.renderer.gl;
+    let gl = this.renderer.gl;
 
     if (stencilMaskStack.length === 0)
     {
@@ -47,7 +47,7 @@ StencilManager.prototype.pushStencil = function (graphics)
 
     this.renderer._activeRenderTarget.attachStencilBuffer();
 
-    var gl = this.renderer.gl,
+    let gl = this.renderer.gl,
         sms = this.stencilMaskStack;
 
     if (sms.length === 0)
@@ -76,10 +76,10 @@ StencilManager.prototype.popStencil = function ()
 {
     this.renderer.setObjectRenderer(this.renderer.plugins.graphics);
 
-    var gl = this.renderer.gl,
+    let gl = this.renderer.gl,
         sms = this.stencilMaskStack;
 
-    var graphics = sms.pop();
+    let graphics = sms.pop();
 
     if (sms.length === 0)
     {
